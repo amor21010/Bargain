@@ -1,0 +1,36 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="496dp"
+    android:height="496dp"
+    android:viewportWidth="496"
+    android:viewportHeight="496">
+    <path
+        android:fillColor="#F0BC5E"
+        android:pathData="M248,240m-96,0a96,96 0,1 1,192 0a96,96 0,1 1,-192 0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M272,188.448V168h-16v16h-16v-16h-16v16h-16v112h16v16h16v-16h16v16h16v-20.448c9.52,-5.552 16,-15.76 16,-27.552c0,-9.544 -4.2,-18.136 -10.856,-24C283.8,234.136 288,225.544 288,216C288,204.208 281.52,194 272,188.448zM256,280h-32v-32h32c8.824,0 16,7.176 16,16S264.824,280 256,280zM256,232h-32v-32h32c8.824,0 16,7.176 16,16S264.824,232 256,232z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M224,448h48v16h-48z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M492.152,112L408,38.368V80h-24V40c0,-22.056 -17.944,-40 -40,-40H152c-22.056,0 -40,17.944 -40,40v296H88v-41.632L3.848,368L88,441.632V400h24v56c0,22.056 17.944,40 40,40h192c22.056,0 40,-17.944 40,-40V144h24v41.632L492.152,112zM152,16h192c13.232,0 24,10.768 24,24v8H128v-8C128,26.768 138.768,16 152,16zM344,480H152c-13.232,0 -24,-10.768 -24,-24v-24h240v24C368,469.232 357.232,480 344,480zM320,128v16h48v272H128v-16h80v-16H72v22.368L28.152,368L72,329.632V352h104v-16h-48V64h240v16h-80v16h136V73.632L467.848,112L424,150.368V128H320z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M224,384h16v16h-16z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M256,384h16v16h-16z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M256,80h16v16h-16z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M224,80h16v16h-16z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M304,232h16v16h-16z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M176,232h16v16h-16z" />
+</vector>

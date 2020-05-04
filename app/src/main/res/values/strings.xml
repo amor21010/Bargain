@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Bargain</string>
+    <string name="logo">logo</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">sign up</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="password">password</string>
+    <string name="phone">phone Number</string>
+    <string name="address">address</string>
+    <string name="email_address">email Address</string>
+    <string name="full_name">Full Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="have_account">Have Account? Sign In</string>
+    <string name="welcome">Welcome !</string>
+    <string name="big_text">Please complete the following fields correctly now that the more accurate the more you will be trusted</string>
+    <string name="city">city</string>
+    <string-array name="cities">
+        <item>sers al layyana</item>
+    </string-array>
 </resources>
