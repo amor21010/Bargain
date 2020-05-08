@@ -14,7 +14,39 @@
     <string name="welcome">Welcome !</string>
     <string name="big_text">Please complete the following fields correctly now that the more accurate the more you will be trusted</string>
     <string name="city">city</string>
+    <string name="more">more</string>
+    <string name="profile">profile</string>
+    <string name="logout">logout</string>
+    <string name="search">search</string>
+    <string name="cart">cart</string>
     <string-array name="cities">
         <item>sers al layyana</item>
     </string-array>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+    <string name="stores">stores</string>
+    <string name="individuals">individuals</string>
+    <string name="handwork">handwork</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="alert">alert</string>
+    <string name="x">X</string>
+    <string name="ok">OK</string>
+    <string name="order_history">Order History</string>
+    <string name="custom_order">Make Order</string>
+    <string name="loading">loading ....</string>
+    <string name="unauthorized">unAuthorized</string>
 </resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "513930255664",
+    "firebase_url": "https://bargain-39f7b.firebaseio.com",
+    "project_id": "bargain-39f7b",
+    "storage_bucket": "bargain-39f7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513930255664:android:c782c102ba4e5595327cf5",
+        "android_client_info": {
+          "package_name": "com.omaraboesmail.bargain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513930255664-q18fv9j2ilsrd529jbgr3hq0895t5rrc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3vwmx8NqyRN_yd1bLuOhOMy2npVuf1zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513930255664-q18fv9j2ilsrd529jbgr3hq0895t5rrc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
