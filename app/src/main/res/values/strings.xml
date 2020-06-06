@@ -31,12 +31,10 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
+    <string name="action_logout">Logout</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-
     <string name="home_second">Home Second</string>
     <string name="stores">stores</string>
     <string name="individuals">individuals</string>
@@ -49,4 +47,26 @@
     <string name="custom_order">Make Order</string>
     <string name="loading">loading ....</string>
     <string name="unauthorized">unAuthorized</string>
+    <string name="null_field">this field is required</string>
+    <string name="email_not_verified">Your Account Is Not Verified Yet </string>
+    <string name="try_to_verify">Verify this email</string>
+    <string name="got_to_email_app">Open Email</string>
+    <string name="super_markets">Super Markets</string>
+    <string name="restaurants">Food Restaurants</string>
+    <string name="vegetables_markets">Vegetables Markets</string>
+    <string name="market_image">Market Image</string>
+    <string name="supermarket_name">supermarket Name :</string>
+    <string name="add_photo">Add photo</string>
+    <string name="add">add</string>
+    <string name="zero">0</string>
+    <string name="move">move</string>
+    <string name="product_name">product Name</string>
+    <string name="price">99.99</string>
+    <string name="add_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="one">1</string>
+    <string name="quantity">quantity</string>
+    <string name="offer">offer</string>
+    <string name="expand">expand</string>
+    <string name="weight_unit">weight unit</string>
 </resources>

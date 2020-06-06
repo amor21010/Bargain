@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="7dp"
+
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/card_radius">
+
+    <RelativeLayout
+        android:id="@+id/rootRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relative"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@color/colorPrimary">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imageCard"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:layout_centerVertical="true"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="@dimen/card_radius">
+
+                <ImageView
+
+                    android:id="@+id/productImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/super_markets"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/supermarket_image" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/imageCard"
+                android:text="@string/product_name"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/small_text" />
+
+            <!--
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="@color/colorAccentLight"
+
+                        app:cardCornerRadius="5dp">
+            -->
+
+
+            <!--        </androidx.cardview.widget.CardView>-->
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/expandable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relative"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/productRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/primry_strok"
+                android:padding="10dp"
+                tools:listitem="@layout/product_item" />
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/expandBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+
+            android:layout_margin="15dp"
+            android:contentDescription="@string/expand"
+            android:src="@drawable/ic_expand"
+            app:backgroundTint="@android:color/white"
+
+            app:fabSize="mini"
+            app:tint="@color/colorPrimary" />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
+

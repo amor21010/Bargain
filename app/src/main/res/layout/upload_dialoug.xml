@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@android:style/Widget.Material.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="15dp"
+            android:progress="0" />
+
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="5dp"
+            android:text="@string/zero"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress"
+            android:layout_margin="5dp"
+            android:text="@string/loading"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="20sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/loading"
+            android:layout_margin="5dp"
+            android:clickable="false"
+            android:enabled="false"
+            android:text="@string/ok"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

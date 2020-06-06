@@ -1,6 +1,7 @@
 package com.omaraboesmail.bargain.ui.signUpActivity
 
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
@@ -8,27 +9,34 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
-import com.omaraboesmail.bargain.NavigationFlow
 import com.omaraboesmail.bargain.R
-import com.omaraboesmail.bargain.pojo.AuthState
-import com.omaraboesmail.bargain.pojo.DbCRUDState
+import com.omaraboesmail.bargain.data.UserRepo
 import com.omaraboesmail.bargain.pojo.User
+import com.omaraboesmail.bargain.resultStats.AuthState
+import com.omaraboesmail.bargain.resultStats.DbCRUDState
+import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate
 import com.omaraboesmail.bargain.ui.mainActivity.MainActivity
 import com.omaraboesmail.bargain.ui.signInActivity.SignInActivity
+import com.omaraboesmail.bargain.utils.DialogMaker
+import com.omaraboesmail.bargain.utils.DialogMaker.authDialog
+import com.omaraboesmail.bargain.utils.NavigationFlow
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
 
     private val signUpViewModel: SignUpViewModel by viewModels()
 
+    private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        DialogMaker.mContext = this
+        dialog = authDialog()
         haveAccount.setOnClickListener {
             NavigationFlow(this).navigateActivity(SignInActivity())
         }
         signUpBtn.setOnClickListener {
-            validateAll()
+            if (validateAll()) register(getData())
         }
 
     }
@@ -47,7 +55,7 @@ class SignUpActivity : AppCompatActivity() {
             return false
 
         } else {
-            register()
+
 
             return true
         }
@@ -69,17 +77,22 @@ class SignUpActivity : AppCompatActivity() {
         )
 
 
-    private fun register() {
+    private fun register(user: User) {
 
-        signUpViewModel.signUp(getData())
+        signUpViewModel.signUp(user)
 
         signUpViewModel.userState().observe(this, Observer {
             when (it) {
                 AuthState.LOADING ->
-                    Toast.makeText(this, AuthState.LOADING.msg, Toast.LENGTH_LONG).show()
+
+                    showDialog(it.msg, true)
                 AuthState.FAILED ->
-                    Toast.makeText(this, AuthState.FAILED.msg, Toast.LENGTH_LONG).show()
-                AuthState.SUCCESS -> insertUserState()
+                    showDialog(it.msg, false)
+                AuthState.SUCCESS -> {
+                    UserRepo.setFirebaseUser(FireBaseAuthenticate.firebaseAuthInstance.currentUser)
+
+                    insertUserState()
+                }
                 else -> Toast.makeText(this, AuthState.EXCEPTION.msg, Toast.LENGTH_LONG).show()
 
             }
@@ -92,11 +105,15 @@ class SignUpActivity : AppCompatActivity() {
         signUpViewModel.operationStat().observe(this, Observer {
             when (it) {
                 DbCRUDState.LOADING ->
-                    Toast.makeText(this, AuthState.LOADING.msg, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, DbCRUDState.LOADING.msg, Toast.LENGTH_LONG).show()
                 DbCRUDState.FAILED ->
-                    Toast.makeText(this, AuthState.FAILED.msg, Toast.LENGTH_LONG).show()
-                DbCRUDState.INSERTED -> NavigationFlow(this).navigateActivity(MainActivity())
-                else -> Toast.makeText(this, AuthState.EXCEPTION.msg, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, DbCRUDState.FAILED.msg, Toast.LENGTH_LONG).show()
+                DbCRUDState.INSERTED -> {
+
+                    NavigationFlow(this).navigateActivity(MainActivity())
+
+                }
+                else -> Toast.makeText(this, DbCRUDState.EXCEPTION.msg, Toast.LENGTH_LONG).show()
 
             }
         })
@@ -104,56 +121,63 @@ class SignUpActivity : AppCompatActivity() {
 
 
     private fun validatePassword(): Boolean {
-        if (password.editText!!.text.isValidPassword()) {
+        return if (password.editText!!.text.isValidPassword()) {
             password.error = null
-            return true
+            true
         } else {
             password.error = "please enter valid Password"
-            return false
+            false
         }
     }
 
     private fun conPassword(): Boolean {
-        if (password.editText!!.text.isValidPassword()) {
-            if (password.editText!!.text.equals(confPassword.editText!!.text))
+        return if (password.editText!!.text.isValidPassword()) {
+            if (password.editText!!.text == confPassword.editText!!.text)
                 confPassword.error = null
-            return true
+            true
         } else {
             confPassword.error = "password dose not match"
-            return false
+            false
         }
     }
 
-    fun TextInputLayout.validateInput(): Boolean {
+    private fun TextInputLayout.validateInput(): Boolean {
         val editText = this.editText
-        if (editText!!.text.isValidInput()) {
+        return if (editText!!.text.isValidInput()) {
             this.error = null
-            return true
+            true
         } else {
             this.error = "please enter valid data"
-            return false
+            false
         }
     }
 
-    fun validateEmail(): Boolean {
-        if (email.editText!!.text.isValidEmail()) {
+    private fun validateEmail(): Boolean {
+        return if (email.editText!!.text.isValidEmail()) {
             email.error = null
-            return true
+            true
         } else {
             email.error = "please enter valid Password"
-            return false
+            false
         }
     }
 
+    private fun showDialog(msg: String, boolean: Boolean) {
+        DialogMaker.loading.value = boolean
+        DialogMaker.mTitle.value = msg
+        dialog.show()
+
+    }
+
+
+    private fun CharSequence?.isValidInput() =
+        !isNullOrEmpty() && (this!!.length > 6)
+
+    private fun CharSequence?.isValidEmail() =
+        !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this!!).matches() && this.isValidInput()
+
+    private fun CharSequence?.isValidPassword() =
+        !isNullOrEmpty() && this!!.length > 8
 
 }
-
-fun CharSequence?.isValidInput() =
-    !isNullOrEmpty() && (this!!.length > 6)
-
-fun CharSequence?.isValidEmail() =
-    !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this!!).matches() && this.isValidInput()
-
-fun CharSequence?.isValidPassword() =
-    !isNullOrEmpty() && this!!.length > 8
 

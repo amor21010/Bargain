@@ -3,118 +3,168 @@ package com.omaraboesmail.bargain.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.omaraboesmail.bargain.pojo.AuthState
-import com.omaraboesmail.bargain.pojo.DbCRUDState
+import androidx.lifecycle.Transformations
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
+import com.omaraboesmail.bargain.pojo.ToMap
 import com.omaraboesmail.bargain.pojo.User
-import com.omaraboesmail.bargain.pojo.UserVerState
+import com.omaraboesmail.bargain.pojo.toUserObject
+import com.omaraboesmail.bargain.resultStats.AuthState
+import com.omaraboesmail.bargain.resultStats.DbCRUDState
+import com.omaraboesmail.bargain.resultStats.UserVerState
 import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.authState
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.fbUser
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.firebaseAuth
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.isUserVerified
+import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.firebaseAuthInstance
+import com.omaraboesmail.bargain.singiltons.UserDB.db
 import com.omaraboesmail.bargain.singiltons.UserDB.dbCRUDState
-import com.omaraboesmail.bargain.singiltons.UserDB.userRef
-import com.omaraboesmail.bargain.singiltons.UserDB.usersColl
+import com.omaraboesmail.bargain.utils.Const.TAG
 
 
-class UserRepo {
+object UserRepo {
+    lateinit var userRef: DocumentReference
+
+
+    val fbUserLive: MutableLiveData<FirebaseUser?> = MutableLiveData()
+    val currant: LiveData<User> = Transformations.switchMap(fbUserLive) {
+        getUserData(it)
+    }
+
+    val isUserEmailVerified: LiveData<UserVerState> = Transformations.switchMap(fbUserLive) {
+        it.isVerified()
+    }
+
+    fun setFirebaseUser(firebaseUser: FirebaseUser?) {
+        if (firebaseUser != fbUserLive.value) fbUserLive.value = firebaseUser
+        else fbUserLive.value?.reload()
+    }
+
+    fun FirebaseUser?.isVerified(): LiveData<UserVerState> {
+        return object : LiveData<UserVerState>() {
+            override fun onActive() {
+                super.onActive()
+                if (this@isVerified != null) {
+                    val firebaseUser: FirebaseUser = this@isVerified
+                    value = if (firebaseUser.isEmailVerified) {
+                        UserVerState.VERIFIED
+                    } else UserVerState.UNVERIFIED
+                }
+            }
+        }
+
+    }
+
+    val usersColl = db.collection("users")
 
 
     fun insertUserToFireStore(user: User) {
         usersColl.add(user)
             .addOnSuccessListener {
                 dbCRUDState.value = DbCRUDState.INSERTED
+                Log.d(TAG, "inserted" + it.id)
+                sendVerificationEmail(firebaseAuthInstance.currentUser!!)
 
             }
             .addOnFailureListener {
                 dbCRUDState.value = DbCRUDState.FAILED
+                Log.d(TAG, "FAILED to insert" + it.message)
             }
     }
 
     fun signIn(email: String, password: String) {
-        Log.d("oooooooo", "signIn()")
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d("oooooooo", "signIn() suc")
+        Log.d(TAG, "signIn()")
+        firebaseAuthInstance.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "signIn() suc")
 
-                authState.value = AuthState.SUCCESS
-                fbUser = firebaseAuth.currentUser
-                if (fbUser != null && fbUser!!.isEmailVerified)
-                    isUserVerified.value = UserVerState.VERIFIED
-            } else {
-                Log.d("oooooooo", "signIn() fa")
+                    authState.value = AuthState.SUCCESS
+                    fbUserLive.value = firebaseAuthInstance.currentUser
 
-                authState.value = AuthState.UNAUTHORIZED
+                } else {
+                    Log.d(TAG, "signIn() fa")
+                    authState.value = AuthState.UNAUTHORIZED
+                    Log.d(TAG, "FAILED" + task.exception!!.message)
+
+                }
             }
-        }
 
     }
 
+
+    private fun getUserData(firebaseUser: FirebaseUser?): LiveData<User> {
+        return object : LiveData<User>() {
+            override fun onActive() {
+                super.onActive()
+                usersColl.whereEqualTo("email", firebaseUser?.email).get().addOnSuccessListener {
+                    if (it != null) {
+                        userRef = (it.documents[0].reference)
+                        Log.e(
+                            "OOOOOOOOOOOOO",
+                            it.documents[0].data.toString() + "\n" +
+                                    userRef.id + " / " + it.documents[0].id
+                        )
+                        value = it.documents[0].data?.toUserObject()
+                    }
+                }
+                    .addOnFailureListener {
+                        Log.e("OOOOOOOOOOOOO", it.message.toString())
+                        value = null
+                    }
+            }
+        }
+    }
+
+
     fun signOut() {
-        firebaseAuth.signOut()
+
+        firebaseAuthInstance.signOut()
+        authState.value = AuthState.LOADING
+        setFirebaseUser(null)
+
     }
 
     fun updateFireStoreUser(user: User) {
-        Log.d("ooooooooo", "UPDATing")
-        userRef.update(fromUserToMap(user))
+        Log.d(TAG, "UPDATing")
+        userRef.update(user.ToMap())
             .addOnSuccessListener {
-                Log.d("ooooooooo", "UPDATED")
+                Log.d(TAG, "UPDATED")
                 dbCRUDState.value = DbCRUDState.UPDATED
             }
             .addOnFailureListener {
-                Log.d("ooooooooo", "FAILED" + it.message)
+                Log.d(TAG, "FAILED to Update" + it.message)
                 dbCRUDState.value = DbCRUDState.FAILED
             }
     }
 
     fun signUp(user: User) {
-        firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
+        firebaseAuthInstance.createUserWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     authState.value = AuthState.SUCCESS
-                    if (fbUser != null) {
-                        user.id = fbUser!!.uid
-                        sendVerificationEmail(user)
-                    }
+                    Log.d(TAG, "Signed up")
+                    insertUserToFireStore(user)
                 } else {
                     AuthState.FAILED.msg = task.exception.toString().substringAfterLast(":")
                     authState.value = AuthState.FAILED
+                    Log.d(TAG, "FAILED to Sign Up" + task.exception!!.message)
                 }
 
             }
     }
 
 
-    fun sendVerificationEmail(user: User) {
-        fbUser?.sendEmailVerification()
-            ?.addOnCompleteListener { task ->
+    fun sendVerificationEmail(firebaseUser: FirebaseUser) {
+        Log.d(TAG, "email sending")
+
+        firebaseUser.sendEmailVerification()
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    if (fbUser != null) {
-                        user.approved = fbUser!!.isEmailVerified
-                        insertUserToFireStore(user)
-                    }
+                    Log.d(TAG, "email sent")
                 } else {
-                    Log.d("sendEmail", task.exception.toString())
+                    Log.d(TAG, "email failed " + task.exception.toString())
                 }
             }
     }
 
-    fun isVerified(): LiveData<Boolean> = MutableLiveData(fbUser?.isEmailVerified)
-    fun fromUserToMap(user: User): HashMap<String, Any> {
-
-        return hashMapOf(
-            "id" to user.id,
-            "email" to user.email,
-            "name" to user.name,
-            "phone" to user.phone,
-            "password" to user.password,
-            "address" to user.address,
-            "nationalId" to user.nationalId,
-            "photoUrl" to user.photoUrl,
-            "approved" to user.approved,
-            "trustPoints" to user.trustPoints
-        )
-
-    }
 
 }
 

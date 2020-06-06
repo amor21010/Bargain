@@ -1,15 +1,14 @@
 package com.omaraboesmail.bargain.ui
 
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.omaraboesmail.bargain.NavigationFlow
 import com.omaraboesmail.bargain.R
-
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.fbUser
-
+import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate
 import com.omaraboesmail.bargain.ui.mainActivity.MainActivity
 import com.omaraboesmail.bargain.ui.signInActivity.SignInActivity
 import com.omaraboesmail.bargain.ui.signUpActivity.SignUpActivity
+import com.omaraboesmail.bargain.utils.NavigationFlow
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
@@ -18,15 +17,17 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        if (fbUser != null) {
+        if (FireBaseAuthenticate.firebaseAuthInstance.currentUser != null) {
             NavigationFlow(this).navigateActivity(MainActivity())
         } else {
             signIn.setOnClickListener {
-                NavigationFlow(this).navigateActivity(SignInActivity(), true)
+                NavigationFlow(this)
+                    .navigateActivity(SignInActivity(), true)
 
             }
             signUp.setOnClickListener {
-                NavigationFlow(this).navigateActivity(SignUpActivity(), true)
+                NavigationFlow(this)
+                    .navigateActivity(SignUpActivity(), true)
 
             }
         }
