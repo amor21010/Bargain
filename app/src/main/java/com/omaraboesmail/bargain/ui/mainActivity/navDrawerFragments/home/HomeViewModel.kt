@@ -17,11 +17,11 @@ class HomeViewModel : ViewModel() {
 
     val getCurrentUserData = currant
 
-    fun setfirebaseUser(firebaseUser: FirebaseUser) {
+    fun setFirebaseUser(firebaseUser: FirebaseUser) {
         UserRepo.fbUserLive.value = firebaseUser
     }
 
-    fun updateUserData(): LiveData<User> = currant
+    fun updateUserData(): LiveData<User> = (currant)
 
 
 }

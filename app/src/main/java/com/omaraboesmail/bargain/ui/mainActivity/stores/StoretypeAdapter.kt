@@ -27,14 +27,8 @@ class StoretypeAdapter : RecyclerView.Adapter<StoretypeAdapter.StoretypeVH>() {
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: StoretypeVH, position: Int) {
-
-
         val storeType = data[position]
         holder.bind(storeType)
-        holder.itemView.setOnClickListener {
-            NavigationFlow(context).navigateToFragment(storeType.id)
-        }
-
     }
 
     fun swapData(data: List<StoreType>, context: Context) {
@@ -44,14 +38,12 @@ class StoretypeAdapter : RecyclerView.Adapter<StoretypeAdapter.StoretypeVH>() {
     }
 
     class StoretypeVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-
         fun bind(item: StoreType) = with(itemView) {
             this.storeTypeImage.setImageDrawable(item.drawable)
             this.storeTypeText.text = item.name
             Glide.with(this).load(item.drawable).into(storeTypeImage)
             setOnClickListener {
-
+                NavigationFlow(context).navigateToFragment(item.id)
 
             }
         }

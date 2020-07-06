@@ -12,10 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.omaraboesmail.bargain.R
+import com.omaraboesmail.bargain.data.FireBaseConst.firebaseAuthInstance
 import com.omaraboesmail.bargain.data.UserRepo.fbUserLive
 import com.omaraboesmail.bargain.data.UserRepo.setFirebaseUser
 import com.omaraboesmail.bargain.pojo.User
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.firebaseAuthInstance
+
 import com.omaraboesmail.bargain.utils.Const.TAG
 import com.omaraboesmail.bargain.utils.DialogMaker
 import com.omaraboesmail.bargain.utils.DialogMaker.mContext
@@ -34,9 +35,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-
-        return root
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onResume() {
@@ -56,6 +55,7 @@ class HomeFragment : Fragment() {
     private fun getData() {
 
         dialog = DialogMaker.verifyEmailDialog()
+        firebaseAuthInstance.currentUser?.reload()
         setFirebaseUser(firebaseAuthInstance.currentUser)
 
         homeViewModel.getCurrentUserData.observe(viewLifecycleOwner, Observer { user ->

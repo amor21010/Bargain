@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/storeTypeImage"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:contentDescription="@string/super_markets"
             android:scaleType="centerCrop"
             android:src="@drawable/supermarket_image" />

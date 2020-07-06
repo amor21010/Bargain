@@ -4,7 +4,8 @@ package com.omaraboesmail.bargain.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.omaraboesmail.bargain.R
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate
+import com.omaraboesmail.bargain.data.FireBaseConst.firebaseAuthInstance
+
 import com.omaraboesmail.bargain.ui.mainActivity.MainActivity
 import com.omaraboesmail.bargain.ui.signInActivity.SignInActivity
 import com.omaraboesmail.bargain.ui.signUpActivity.SignUpActivity
@@ -17,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        if (FireBaseAuthenticate.firebaseAuthInstance.currentUser != null) {
+        if (firebaseAuthInstance.currentUser != null) {
             NavigationFlow(this).navigateActivity(MainActivity())
         } else {
             signIn.setOnClickListener {

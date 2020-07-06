@@ -8,4 +8,6 @@
     <color name="colorAccentDark">#F29407</color>
     <color name="colorAccentLight">#FDD393</color>
     <color name="colorAccentLightTransparent">#B5FDD393</color>
+    <color name="white">@android:color/white</color>
+
 </resources>

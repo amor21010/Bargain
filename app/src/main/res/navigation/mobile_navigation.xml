@@ -14,17 +14,12 @@
 
         <action
             android:id="@+id/action_nav_home_to_nav_slideshow"
-            app:destination="@id/nav_myOrders"
+            app:destination="@id/nav_ordersHistory"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
-        <action
-            android:id="@+id/action_nav_home_to_nav_gallery"
-            app:destination="@id/nav_order"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in" />
+
         <action
             android:id="@+id/action_nav_home_to_nav_profile"
             app:destination="@id/nav_profile"
@@ -34,7 +29,7 @@
             app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_nav_home_to_nav_handwork"
-            app:destination="@id/nav_handwork"
+            app:destination="@id/nav_customOrder"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
@@ -53,35 +48,42 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_home_to_cartFragment"
+            app:destination="@id/nav_cart_fragment" />
 
     </fragment>
 
 
     <fragment
-        android:id="@+id/nav_order"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.navDrawerFragments.order.OrderFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_order" />
-
-    <fragment
-        android:id="@+id/nav_myOrders"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.navDrawerFragments.myOrders.MyOrdersFragment"
+        android:id="@+id/nav_ordersHistory"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.navDrawerFragments.orderHistory.OrderHistoryFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_my_orders" />
+        tools:layout="@layout/fragment_order_history" />
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.navDrawerFragments.profile.ProfileFragment"
         android:label="@string/profile" />
     <fragment
-        android:id="@+id/nav_handwork"
+        android:id="@+id/nav_customOrder"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.customOrder.CustomOrderFragment"
         android:label="hand_work_fragment"
-        tools:layout="@layout/hand_work_fragment" />
+        tools:layout="@layout/custom_order_fragment" />
     <fragment
         android:id="@+id/nav_individuals"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.individuals.IndividualsFragment"
         android:label="individuals_fragment"
-        tools:layout="@layout/individuals_fragment" />
+        tools:layout="@layout/individuals_fragment">
+        <action
+            android:id="@+id/action_nav_individuals_to_handMadeFragment"
+            app:destination="@id/handMadeFragment" />
+        <action
+            android:id="@+id/action_nav_individuals_to_homeServiceFragment"
+            app:destination="@id/homeServiceFragment" />
+        <action
+            android:id="@+id/action_nav_individuals_to_homeStoreFragment"
+            app:destination="@id/homeStoreFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_store"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.stores.StoresFragment"
@@ -101,16 +103,20 @@
     </fragment>
     <fragment
         android:id="@+id/nav_resturant"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.foodRestaurantsFragment.FoodRestaurantsFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.restaurantsFragment.RestaurantsFragment"
         android:label="food_restorants_fragment"
-        tools:layout="@layout/food_restorants_fragment" />
+        tools:layout="@layout/restorants_fragment">
+        <action
+            android:id="@+id/action_nav_resturant_to_restaurantDetailsFragment"
+            app:destination="@id/restaurantDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_super_market"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.superMarkets.SuperMarketFragment"
         android:label="super_market_fragment"
         tools:layout="@layout/super_market_fragment">
         <action
-            android:id="@+id/nav_super_market_details"
+            android:id="@+id/action_nav_super_market_to_super_market_details"
             app:destination="@id/superMarketDetailsFragment" />
         <action
             android:id="@+id/action_nav_super_market_to_addSuperMarketFragment"
@@ -118,17 +124,80 @@
     </fragment>
     <fragment
         android:id="@+id/nav_vegtables"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.vegtablesFragment.VegtablesFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.vegetablesFragment.VegetablesFragment"
         android:label="vegtables_fragment"
-        tools:layout="@layout/vegtables_fragment" />
+        tools:layout="@layout/vegtables_fragment">
+        <action
+            android:id="@+id/action_nav_vegtables_to_nav_cart_fragment"
+            app:destination="@id/nav_cart_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/superMarketDetailsFragment"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.supreMarketDetaills.SuperMarketDetailsFragment"
         android:label="super_market_details_fragment"
-        tools:layout="@layout/super_market_details_fragment" />
+        tools:layout="@layout/super_market_details_fragment">
+        <action
+            android:id="@+id/action_superMarketDetailsFragment_to_cartFragment"
+            app:destination="@id/nav_cart_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_add_market"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.addSuperMarketFragment.AddSuperMarketFragment"
         android:label="add_super_market_fragment"
         tools:layout="@layout/add_super_market_fragment" />
+    <fragment
+        android:id="@+id/nav_cart_fragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.cartFragment.CartFragment"
+        android:label="cart_fragment"
+        tools:layout="@layout/cart_fragment" />
+    <fragment
+        android:id="@+id/restaurantDetailsFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.restaurantDetailsFragment.RestaurantDetailsFragment"
+        android:label="retaurant_details_fragment"
+        tools:layout="@layout/retaurant_details_fragment">
+        <action
+            android:id="@+id/action_restaurantDetailsFragment_to_nav_cart_fragment"
+            app:destination="@id/nav_cart_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/handMadeFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.handMadeFragment.HandMadeFragment"
+        android:label="hand_made_fragment"
+        tools:layout="@layout/hand_made_fragment">
+        <action
+            android:id="@+id/action_handMadeFragment_to_addIndividualProductFragment"
+            app:destination="@id/addIndividualProductFragment" />
+        <action
+            android:id="@+id/action_handMadeFragment_to_nav_cart_fragment"
+            app:destination="@id/nav_cart_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeServiceFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.homeService.HomeServiceFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/action_homeServiceFragment_to_addIndividualProductFragment"
+            app:destination="@id/addIndividualProductFragment" />
+        <action
+            android:id="@+id/action_homeServiceFragment_to_nav_cart_fragment"
+            app:destination="@id/nav_cart_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeStoreFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.homeStoreFragment.HomeStoreFragment"
+        android:label="home_store_fragment"
+        tools:layout="@layout/home_store_fragment">
+        <action
+            android:id="@+id/action_homeStoreFragment_to_addIndividualProductFragment"
+            app:destination="@id/addIndividualProductFragment" />
+        <action
+            android:id="@+id/action_homeStoreFragment_to_nav_cart_fragment"
+            app:destination="@id/nav_cart_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addIndividualProductFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.AddIndividualProductFragment"
+        android:label="add_individual_product_fragment"
+        tools:layout="@layout/add_individual_product_fragment" />
 </navigation>

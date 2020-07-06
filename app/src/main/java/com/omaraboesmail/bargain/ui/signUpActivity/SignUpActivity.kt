@@ -3,23 +3,21 @@ package com.omaraboesmail.bargain.ui.signUpActivity
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
 import com.omaraboesmail.bargain.R
+import com.omaraboesmail.bargain.data.FireBaseConst.firebaseAuthInstance
 import com.omaraboesmail.bargain.data.UserRepo
 import com.omaraboesmail.bargain.pojo.User
 import com.omaraboesmail.bargain.resultStats.AuthState
 import com.omaraboesmail.bargain.resultStats.DbCRUDState
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate
 import com.omaraboesmail.bargain.ui.mainActivity.MainActivity
 import com.omaraboesmail.bargain.ui.signInActivity.SignInActivity
-import com.omaraboesmail.bargain.utils.DialogMaker
+import com.omaraboesmail.bargain.utils.*
 import com.omaraboesmail.bargain.utils.DialogMaker.authDialog
-import com.omaraboesmail.bargain.utils.NavigationFlow
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
@@ -65,15 +63,17 @@ class SignUpActivity : AppCompatActivity() {
     private fun getData(): User =
         User(
             id = "",
-            email = email.editText!!.text.toString(),
-            name = name.editText!!.text.toString(),
-            phone = phone.editText!!.text.toString(),
-            password = password.editText!!.text.toString(),
-            address = address.editText!!.text.toString(),
+            email = email.getText()!!,
+            name = name.getText()!!,
+            phone = phone.getText()!!,
+            password = password.getText()!!,
+            address = address.getText()!!,
             photoUrl = "",
             approved = false,
             nationalId = "",
-            trustPoints = 10
+            trustPoints = 10,
+            isAdmin = false,
+            isSeller = false
         )
 
 
@@ -89,7 +89,7 @@ class SignUpActivity : AppCompatActivity() {
                 AuthState.FAILED ->
                     showDialog(it.msg, false)
                 AuthState.SUCCESS -> {
-                    UserRepo.setFirebaseUser(FireBaseAuthenticate.firebaseAuthInstance.currentUser)
+                    UserRepo.setFirebaseUser(firebaseAuthInstance.currentUser)
 
                     insertUserState()
                 }
@@ -143,7 +143,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun TextInputLayout.validateInput(): Boolean {
         val editText = this.editText
-        return if (editText!!.text.isValidInput()) {
+        return if (editText!!.text.isValidInputAndNotShort()) {
             this.error = null
             true
         } else {
@@ -169,15 +169,6 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
-
-    private fun CharSequence?.isValidInput() =
-        !isNullOrEmpty() && (this!!.length > 6)
-
-    private fun CharSequence?.isValidEmail() =
-        !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this!!).matches() && this.isValidInput()
-
-    private fun CharSequence?.isValidPassword() =
-        !isNullOrEmpty() && this!!.length > 8
 
 }
 

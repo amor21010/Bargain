@@ -20,7 +20,7 @@ class CustomOrderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.hand_work_fragment, container, false)
+        return inflater.inflate(R.layout.custom_order_fragment, container, false)
     }
 
 }

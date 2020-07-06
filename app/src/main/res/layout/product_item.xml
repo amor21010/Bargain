@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="5dp">
+    android:layout_margin="5dp"
+    app:cardCornerRadius="@dimen/card_radius">
+
 
     <RelativeLayout
-
+        android:id="@+id/body"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="7dp"
+        android:layout_marginVertical="5dp">
 
         <TextView
             android:id="@+id/name"
@@ -29,66 +33,15 @@
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/small_text" />
 
-        <!-- <TextView
-             android:id="@+id/labeled"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_below="@id/unit"
-             android:layout_centerHorizontal="true"
-             android:labelFor="@+id/quantity"
-             android:text="@string/quantity" />
 
-         <LinearLayout
-             android:layout_width="150dp"
-             android:layout_height="wrap_content"
-             android:layout_below="@+id/labeled"
-             android:layout_centerHorizontal="true"
-             android:orientation="horizontal">
-
-             <TextView
-                 android:id="@+id/decrease"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="1"
-                 android:background="@drawable/accent_raduis"
-                 android:padding="5dp"
-                 android:text="@string/minus_sign"
-                 android:textAlignment="center"
-                 android:textColor="@android:color/holo_red_light"
-                 android:textSize="@dimen/big_text" />
-
-
-             <EditText
-                 android:id="@+id/quantity"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_marginHorizontal="5dp"
-                 android:layout_weight="2"
-                 android:autofillHints="@string/one"
-                 android:inputType="number"
-                 android:text="@string/one"
-                 android:textAlignment="center" />
-
-             <TextView
-                 android:id="@+id/increase"
-                 android:layout_width="0dp"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="1"
-                 android:background="@drawable/primry_raduis"
-                 android:padding="5dp"
-                 android:text="@string/add_sign"
-                 android:textAlignment="center"
-                 android:textColor="@android:color/white"
-                 android:textSize="@dimen/big_text" />
-
-         </LinearLayout>-->
-        <NumberPicker
-            android:id="@+id/quantity"
+        <TextView
+            android:id="@+id/price"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/add_fap"
-            android:orientation="horizontal" />
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/add_fap"
+            android:text="@string/price" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_fap"
@@ -96,11 +49,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"
+            android:layout_marginVertical="5dp"
             android:backgroundTint="@color/colorPrimaryLight"
             android:src="@drawable/ic_shopper"
             app:fabSize="mini"
             app:tint="@android:color/white" />
     </RelativeLayout>
+
 
 </androidx.cardview.widget.CardView>

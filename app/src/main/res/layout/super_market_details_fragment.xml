@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
+
     tools:context=".ui.mainActivity.supreMarketDetaills.SuperMarketDetailsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -14,6 +15,7 @@
         android:theme="@style/ToolBarStyle">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapse"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:background="@drawable/supermarket_image"
@@ -74,21 +76,37 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="fill_vertical"
         android:layout_marginBottom="?attr/actionBarSize"
         android:fillViewport="true"
-
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/products"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             tools:listitem="@layout/product_category_item" />
     </androidx.core.widget.NestedScrollView>
+    <!--
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:cardCornerRadius="@dimen/card_radius">
 
+            <TextView
+                android:id="@+id/superMarketTotalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/primary_stroke_all"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="@dimen/big_text"
+                android:text="@string/price"
+                />
+        </androidx.cardview.widget.CardView>-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

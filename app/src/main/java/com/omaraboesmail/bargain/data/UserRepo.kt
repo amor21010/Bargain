@@ -6,16 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import com.omaraboesmail.bargain.pojo.ToMap
+import com.omaraboesmail.bargain.data.FireBaseConst.authState
+import com.omaraboesmail.bargain.data.FireBaseConst.dbCRUDState
+import com.omaraboesmail.bargain.data.FireBaseConst.firebaseAuthInstance
+import com.omaraboesmail.bargain.data.FireBaseConst.usersColl
 import com.omaraboesmail.bargain.pojo.User
+import com.omaraboesmail.bargain.pojo.toHashMap
 import com.omaraboesmail.bargain.pojo.toUserObject
 import com.omaraboesmail.bargain.resultStats.AuthState
 import com.omaraboesmail.bargain.resultStats.DbCRUDState
 import com.omaraboesmail.bargain.resultStats.UserVerState
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.authState
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.firebaseAuthInstance
-import com.omaraboesmail.bargain.singiltons.UserDB.db
-import com.omaraboesmail.bargain.singiltons.UserDB.dbCRUDState
 import com.omaraboesmail.bargain.utils.Const.TAG
 
 
@@ -25,8 +25,9 @@ object UserRepo {
 
     val fbUserLive: MutableLiveData<FirebaseUser?> = MutableLiveData()
     val currant: LiveData<User> = Transformations.switchMap(fbUserLive) {
-        getUserData(it)
+        it?.let { getUserData(it) }
     }
+
 
     val isUserEmailVerified: LiveData<UserVerState> = Transformations.switchMap(fbUserLive) {
         it.isVerified()
@@ -52,8 +53,6 @@ object UserRepo {
 
     }
 
-    val usersColl = db.collection("users")
-
 
     fun insertUserToFireStore(user: User) {
         usersColl.add(user)
@@ -70,17 +69,13 @@ object UserRepo {
     }
 
     fun signIn(email: String, password: String) {
-        Log.d(TAG, "signIn()")
+        authState.value = AuthState.LOADING
         firebaseAuthInstance.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "signIn() suc")
-
                     authState.value = AuthState.SUCCESS
                     fbUserLive.value = firebaseAuthInstance.currentUser
-
                 } else {
-                    Log.d(TAG, "signIn() fa")
                     authState.value = AuthState.UNAUTHORIZED
                     Log.d(TAG, "FAILED" + task.exception!!.message)
 
@@ -90,25 +85,23 @@ object UserRepo {
     }
 
 
-    private fun getUserData(firebaseUser: FirebaseUser?): LiveData<User> {
+    private fun getUserData(firebaseUser: FirebaseUser): LiveData<User> {
         return object : LiveData<User>() {
             override fun onActive() {
                 super.onActive()
-                usersColl.whereEqualTo("email", firebaseUser?.email).get().addOnSuccessListener {
-                    if (it != null) {
-                        userRef = (it.documents[0].reference)
+                usersColl.whereEqualTo("email", firebaseUser.email).addSnapshotListener { it, e ->
+                    if (e != null) return@addSnapshotListener
+                    if (it != null && !it.documents.isNullOrEmpty()) {
+                        userRef = (it.documents.first().reference)
                         Log.e(
-                            "OOOOOOOOOOOOO",
-                            it.documents[0].data.toString() + "\n" +
-                                    userRef.id + " / " + it.documents[0].id
+                            TAG,
+                            it.documents.first().data.toString() + "\n" +
+                                    userRef.id + " / " + it.first().id
                         )
-                        value = it.documents[0].data?.toUserObject()
+                        value = it.documents.first().data?.toUserObject()
                     }
                 }
-                    .addOnFailureListener {
-                        Log.e("OOOOOOOOOOOOO", it.message.toString())
-                        value = null
-                    }
+
             }
         }
     }
@@ -124,7 +117,7 @@ object UserRepo {
 
     fun updateFireStoreUser(user: User) {
         Log.d(TAG, "UPDATing")
-        userRef.update(user.ToMap())
+        userRef.update(user.toHashMap())
             .addOnSuccessListener {
                 Log.d(TAG, "UPDATED")
                 dbCRUDState.value = DbCRUDState.UPDATED
@@ -136,6 +129,8 @@ object UserRepo {
     }
 
     fun signUp(user: User) {
+        authState.value = AuthState.LOADING
+
         firebaseAuthInstance.createUserWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

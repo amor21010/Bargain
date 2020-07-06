@@ -30,6 +30,7 @@
         android:backgroundTint="@color/colorAccent"
         android:src="@drawable/ic_add"
         app:borderWidth="0dp"
+        app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

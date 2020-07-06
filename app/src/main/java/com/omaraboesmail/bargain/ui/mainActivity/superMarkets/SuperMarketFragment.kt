@@ -22,7 +22,7 @@ class SuperMarketFragment : Fragment() {
     }
 
     private val viewModel: SuperMarketViewModel by viewModels()
-    private val data: MutableList<SuperMarket> = ArrayList()
+    private var data = ArrayList<SuperMarket>()
     private val adapter = SuperMarketsAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,17 +37,26 @@ class SuperMarketFragment : Fragment() {
         NavigationFlow(this.requireContext()).onFragmentBackPressed(R.id.nav_store)
         viewModel.getAllSuperMarkets().observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                if (data.isEmpty())
-                    data.addAll(it)
+                data = (it as ArrayList<SuperMarket>)
                 adapter.swapData(data, requireContext())
-                superMarketRecycler.layoutManager =
-                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                superMarketRecycler.adapter = adapter
             } else ToastMaker(requireContext(), "null")
         })
-        addMarket.setOnClickListener {
-            NavigationFlow(requireContext()).navigateToFragment(R.id.action_nav_super_market_to_addSuperMarketFragment)
-        }
+        superMarketRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        superMarketRecycler.adapter = adapter
+        addSuperMarket()
+    }
+
+    fun addSuperMarket() {
+        viewModel.getUser().observe(viewLifecycleOwner, Observer { user ->
+            if (user.isAdmin) {
+                addMarket.visibility = View.VISIBLE
+                addMarket.setOnClickListener {
+                    NavigationFlow(requireContext()).navigateToFragment(R.id.action_nav_super_market_to_addSuperMarketFragment)
+                }
+            } else addMarket.visibility = View.GONE
+
+        })
     }
 
 

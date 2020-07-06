@@ -5,11 +5,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.google.android.material.textfield.TextInputLayout
 import com.omaraboesmail.bargain.R
+import com.omaraboesmail.bargain.data.FireBaseConst.firebaseAuthInstance
 import com.omaraboesmail.bargain.data.UserRepo
 import com.omaraboesmail.bargain.resultStats.AuthState
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.firebaseAuthInstance
 import com.omaraboesmail.bargain.ui.SplashActivity
 import com.omaraboesmail.bargain.ui.mainActivity.MainActivity
 import com.omaraboesmail.bargain.utils.DialogMaker
@@ -17,6 +16,7 @@ import com.omaraboesmail.bargain.utils.DialogMaker.loading
 import com.omaraboesmail.bargain.utils.DialogMaker.mContext
 import com.omaraboesmail.bargain.utils.DialogMaker.mTitle
 import com.omaraboesmail.bargain.utils.NavigationFlow
+import com.omaraboesmail.bargain.utils.getText
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity() {
@@ -56,14 +56,6 @@ class SignInActivity : AppCompatActivity() {
 
     }
 
-    private fun TextInputLayout.getText(): String? {
-        return if (!this.editText!!.text.isNullOrEmpty())
-            this.editText!!.text.toString()
-        else {
-            this.error = getString(R.string.null_field)
-            null
-        }
-    }
 
     private fun showDialog(msg: String, boolean: Boolean) {
         loading.value = boolean

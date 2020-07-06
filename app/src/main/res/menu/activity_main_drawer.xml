@@ -10,7 +10,7 @@
             android:title="@string/menu_home" />
 
         <item
-            android:id="@+id/nav_myOrders"
+            android:id="@+id/nav_ordersHistory"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/order_history" />
         <item

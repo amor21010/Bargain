@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="10dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+
         android:padding="10dp"
         app:cardCornerRadius="@dimen/card_radius">
 
@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:hint="@string/email_address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:errorEnabled="true"
                 app:hintTextColor="@color/colorPrimaryDark">
 
@@ -49,6 +50,8 @@
                 android:layout_marginTop="10dp"
                 android:hint="@string/password"
                 app:errorEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                 app:hintTextColor="@color/colorPrimaryDark"
                 app:passwordToggleEnabled="true">
 
@@ -64,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/password"
+
                 android:layout_marginTop="10dp"
                 android:text="@string/sign_in"
                 android:textSize="18sp" />

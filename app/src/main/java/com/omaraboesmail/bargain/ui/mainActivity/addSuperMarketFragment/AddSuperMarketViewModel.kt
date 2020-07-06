@@ -6,7 +6,7 @@ import com.omaraboesmail.bargain.data.SuperMarketRepo
 import com.omaraboesmail.bargain.pojo.SuperMarket
 
 class AddSuperMarketViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+
     fun addMarket(image: Uri, superMarket: SuperMarket) =
         SuperMarketRepo.createMarket(image, superMarket)
 

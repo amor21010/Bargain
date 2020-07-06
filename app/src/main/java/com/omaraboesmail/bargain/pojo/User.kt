@@ -10,27 +10,30 @@ data class User(
     var photoUrl: String,
     var nationalId: String,
     var approved: Boolean,
-    var trustPoints: Int
+    var trustPoints: Int,
+    var isAdmin: Boolean,
+    var isSeller: Boolean
+
 )
 
 fun Map<String, Any>.toUserObject(): User {
     return User(
-        id = this.get("id").toString(),
-        email = this.get("email").toString(),
-        name = this.get("name").toString(),
-        phone = this.get("phone").toString(),
-        password = this.get("password").toString(),
-        address = this.get("address").toString(),
-        photoUrl = this.get("photoUrl").toString(),
-        approved = this.get("approved").toString().toBoolean(),
-        nationalId = this.get("nationalId").toString(),
-        trustPoints = this.get("trustPoints").toString().toInt()
+        id = this["id"].toString(),
+        email = this["email"].toString(),
+        name = this["name"].toString(),
+        phone = this["phone"].toString(),
+        password = this["password"].toString(),
+        address = this["address"].toString(),
+        photoUrl = this["photoUrl"].toString(),
+        approved = this["approved"].toString().toBoolean(),
+        nationalId = this["nationalId"].toString(),
+        trustPoints = this["trustPoints"].toString().toInt(),
+        isAdmin = this["isAdmin"].toString().toBoolean(),
+        isSeller = this["isSeller"].toString().toBoolean()
     )
-
-
 }
 
-fun User.ToMap(): HashMap<String, Any> {
+fun User.toHashMap(): HashMap<String, Any> {
 
     return hashMapOf(
         "id" to this.id,
@@ -42,7 +45,10 @@ fun User.ToMap(): HashMap<String, Any> {
         "nationalId" to this.nationalId,
         "photoUrl" to this.photoUrl,
         "approved" to this.approved,
-        "trustPoints" to this.trustPoints
+        "trustPoints" to this.trustPoints,
+        "isAdmin" to this.isAdmin,
+        "isSeller" to this.isSeller
+
     )
 
 }

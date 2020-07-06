@@ -10,8 +10,7 @@ import com.bumptech.glide.Glide
 import com.omaraboesmail.bargain.R
 import com.omaraboesmail.bargain.data.SuperMarketRepo
 import com.omaraboesmail.bargain.pojo.SuperMarket
-import com.omaraboesmail.bargain.ui.mainActivity.superMarkets.SuperMarketsAdapter.Singletons.data
-import com.omaraboesmail.bargain.ui.mainActivity.superMarkets.SuperMarketsAdapter.Singletons.mContext
+
 import com.omaraboesmail.bargain.utils.DiffUtils
 import com.omaraboesmail.bargain.utils.NavigationFlow
 import kotlinx.android.synthetic.main.super_market_item.view.*
@@ -19,11 +18,9 @@ import java.util.*
 
 class SuperMarketsAdapter : RecyclerView.Adapter<SuperMarketsAdapter.SuperMarketVH>() {
 
-    object Singletons {
-        lateinit var mContext: Context
-        var data: List<SuperMarket> = ArrayList()
 
-    }
+    lateinit var mContext: Context
+    var data: List<SuperMarket> = ArrayList()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuperMarketVH {
@@ -40,17 +37,18 @@ class SuperMarketsAdapter : RecyclerView.Adapter<SuperMarketsAdapter.SuperMarket
 
         val item = data[position]
         holder.bind(item)
+        SuperMarketRepo.setMarketName("")
         holder.itemView.setOnClickListener {
             SuperMarketRepo.setMarketName(item.name)
-            NavigationFlow(mContext).navigateToFragment(R.id.nav_super_market_details)
+            NavigationFlow(mContext).navigateToFragment(R.id.action_nav_super_market_to_super_market_details)
         }
     }
 
     fun swapData(data: List<SuperMarket>, context: Context) {
         mContext = context
-        val diffCallback = DiffUtils(Singletons.data, data)
+        val diffCallback = DiffUtils(this.data, data)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        Singletons.data = data
+        this.data = data
         diffResult.dispatchUpdatesTo(this)
     }
 

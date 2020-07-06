@@ -22,6 +22,11 @@
     <string-array name="cities">
         <item>sers al layyana</item>
     </string-array>
+    <string-array name="individual_types">
+        <item>hand made product</item>
+        <item>resell product</item>
+        <item>home service</item>
+    </string-array>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -38,7 +43,7 @@
     <string name="home_second">Home Second</string>
     <string name="stores">stores</string>
     <string name="individuals">individuals</string>
-    <string name="handwork">handwork</string>
+    <string name="handMade">hand made</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="alert">alert</string>
     <string name="x">X</string>
@@ -53,6 +58,9 @@
     <string name="got_to_email_app">Open Email</string>
     <string name="super_markets">Super Markets</string>
     <string name="restaurants">Food Restaurants</string>
+    <string name="homeMade">Home Made</string>
+    <string name="homeStore">Home Store</string>
+    <string name="homeService">Home Service</string>
     <string name="vegetables_markets">Vegetables Markets</string>
     <string name="market_image">Market Image</string>
     <string name="supermarket_name">supermarket Name :</string>
@@ -69,4 +77,13 @@
     <string name="offer">offer</string>
     <string name="expand">expand</string>
     <string name="weight_unit">weight unit</string>
+    <string name="total_price">Total Price :</string>
+    <string name="continue_to_checkout">continue to checkout</string>
+    <string name="productimage">productImage</string>
+    <string name="be_the_first_to_review">be the first to review</string>
+    <string name="long_press_on_the_product_for_more">long press on the product for more</string>
+    <string name="add_image">add Image</string>
+    <string name="what_is_in_the_package">what is in the package ?</string>
+    <string name="price_string">price</string>
+
 </resources>

@@ -6,8 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.omaraboesmail.bargain.data.FireBaseConst.mStorageRef
+import com.omaraboesmail.bargain.data.FireBaseConst.superMarketDB
 import com.omaraboesmail.bargain.pojo.SuperMarket
 import com.omaraboesmail.bargain.pojo.toHashMap
 import com.omaraboesmail.bargain.pojo.toSuperMarket
@@ -16,8 +17,7 @@ import com.omaraboesmail.bargain.resultStats.UploadPhotoState
 import com.omaraboesmail.bargain.utils.Const.TAG
 
 object SuperMarketRepo {
-    private val fireStore = FirebaseFirestore.getInstance()
-    val superMarketDB = fireStore.collection("super markets")
+
     var marketDoc = MutableLiveData<DocumentReference>()
     val marketName = MutableLiveData<String>()
     var uploadProgress = MutableLiveData<Double>()
@@ -55,14 +55,17 @@ object SuperMarketRepo {
         return object : LiveData<List<SuperMarket>>() {
             override fun onActive() {
                 super.onActive()
-                superMarketDB.orderBy("name", Query.Direction.ASCENDING).get()
-                    .addOnSuccessListener {
-                        if (!it.isEmpty) {
-                            val lsit: MutableList<SuperMarket> = ArrayList()
-                            for (market in it.documents)
-                                market.data?.toSuperMarket()?.let { it1 -> lsit.add(it1) }
-                            Log.d(TAG, lsit[0].toString())
-                            value = lsit
+                superMarketDB.orderBy("name", Query.Direction.ASCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        if (exception != null) return@addSnapshotListener
+                        if (snapshot != null) {
+                            val it = snapshot.documents
+                            if (!it.isNullOrEmpty()) {
+                                val list = ArrayList<SuperMarket>()
+                                for (market in it)
+                                    market.data?.toSuperMarket()?.let { it1 -> list.add(it1) }
+                                value = list
+                            }
                         }
                     }
             }
@@ -71,10 +74,10 @@ object SuperMarketRepo {
 
     fun uploadSuperMarketImage(file: Uri, superMarket: SuperMarket) {
         uploadStat.value = UploadPhotoState.LOADING
-        fireStorage.mStorageRef.child("super market image /${superMarket.name}").putFile(file)
+        mStorageRef.child("super market image /${superMarket.name}").putFile(file)
             .addOnSuccessListener {
                 uploadStat.value = UploadPhotoState.SUCCESS
-                fireStorage.mStorageRef.child("super market image /${superMarket.name}").downloadUrl.addOnCompleteListener {
+                mStorageRef.child("super market image /${superMarket.name}").downloadUrl.addOnCompleteListener {
                     if (it.isSuccessful) {
 
                         Log.d(TAG, superMarket.photo + " b")
@@ -125,6 +128,7 @@ object SuperMarketRepo {
             else crudState.value = DbCRUDState.FAILED
         }
     }
+
 }
 
 

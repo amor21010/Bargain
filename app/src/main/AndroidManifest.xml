@@ -16,10 +16,18 @@
 
         <activity
             android:name=".ui.mainActivity.MainActivity"
+
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.signUpActivity.SignUpActivity" />
-        <activity android:name=".ui.signInActivity.SignInActivity" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.signUpActivity.SignUpActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.signInActivity.SignInActivity"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

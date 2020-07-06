@@ -18,14 +18,13 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.material.textfield.TextInputLayout
 import com.omaraboesmail.bargain.R
 import com.omaraboesmail.bargain.pojo.SuperMarket
 import com.omaraboesmail.bargain.resultStats.DbCRUDState
 import com.omaraboesmail.bargain.utils.Const.TAG
 import com.omaraboesmail.bargain.utils.DialogMaker
-import com.omaraboesmail.bargain.utils.TextInputLayoutUtil
 import com.omaraboesmail.bargain.utils.ToastMaker
+import com.omaraboesmail.bargain.utils.getText
 import kotlinx.android.synthetic.main.add_super_market_fragment.*
 
 
@@ -37,7 +36,6 @@ class AddSuperMarketFragment : Fragment() {
         private const val IMAGE_CAPTURE_CODE = 1
         private const val REQUEST_SELECT_IMAGE_IN_ALBUM = 1992
         var image_uri: Uri? = null
-        val textInputLayoutUtil = TextInputLayoutUtil()
     }
 
     var dialog = DialogMaker.uploadPhotoProgressDialog()
@@ -100,8 +98,6 @@ class AddSuperMarketFragment : Fragment() {
 
 
     }
-
-// TODO: Use the ViewModel
 
     private fun uploadphoto() {
         viewModel.uploadStatus().observe(viewLifecycleOwner, Observer {
@@ -191,8 +187,6 @@ class AddSuperMarketFragment : Fragment() {
             )
         else return null
     }
-
-    private fun TextInputLayout.getText(): String? = textInputLayoutUtil.getText(this)
 
 
 }

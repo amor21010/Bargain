@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.omaraboesmail.bargain.R
+import com.omaraboesmail.bargain.data.FireBaseConst.firebaseAuthInstance
 import com.omaraboesmail.bargain.resultStats.AuthState
-import com.omaraboesmail.bargain.singiltons.FireBaseAuthenticate.firebaseAuthInstance
 
 
 object DialogMaker {
