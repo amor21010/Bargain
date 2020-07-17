@@ -152,6 +152,8 @@ class MainActivity : AppCompatActivity() {
                     , R.id.nav_customOrder
                     , R.id.nav_vegtables
                     , R.id.restaurantDetailsFragment
+                    , R.id.homeServiceFragment
+                    , R.id.homeStoreFragment
                     , R.id.handMadeFragment -> {
                     toolbar.visibility = View.VISIBLE
                     bottomNavView.visibility = View.VISIBLE

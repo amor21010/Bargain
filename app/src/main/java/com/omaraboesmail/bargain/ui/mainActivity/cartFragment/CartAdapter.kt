@@ -3,7 +3,6 @@ package com.omaraboesmail.bargain.ui.mainActivity.cartFragment
 import android.content.res.ColorStateList
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import com.omaraboesmail.bargain.R
 import com.omaraboesmail.bargain.data.CartRepo
 import com.omaraboesmail.bargain.pojo.Product
 import com.omaraboesmail.bargain.pojo.getPhotoUri
-import com.omaraboesmail.bargain.utils.Const.TAG
 
 class CartAdapter : RecyclerView.Adapter<CartAdapter.CartVH>() {
 
@@ -85,7 +83,6 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartVH>() {
             price.text = item.price
             item.getPhotoUri().observe(context as LifecycleOwner, Observer {
                 if (!it.isNullOrEmpty()) {
-                    Log.d(TAG + "TTT", it)
                     Glide.with(itemView.context).load(it).into(image)
                 } else Glide.with(itemView.context).load(R.drawable.food_markets).into(image)
 

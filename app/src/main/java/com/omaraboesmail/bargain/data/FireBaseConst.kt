@@ -11,10 +11,11 @@ object FireBaseConst {
     val mStorageRef = FirebaseStorage.getInstance().reference
     private val fireStore = FirebaseFirestore.getInstance()
 
-    val superMarketProductsDB = fireStore.collection("supermarket products")
     val superMarketDB = fireStore.collection("super markets")
     val restaurantDB = fireStore.collection("restaurants")
     val vegetableDB = fireStore.collection("/vegetable/")
+    val orderDB = fireStore.collection("/order/")
+    val costumeOrderDB = fireStore.collection("/costumeOrder/")
     fun individualsDB(type: String) = fireStore.collection("/$type/")
     val firebaseAuthInstance = FirebaseAuth.getInstance()
     val authState = MutableLiveData<AuthState>().apply { value = AuthState.LOADING }

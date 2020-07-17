@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.mainActivity.superMarkets.SuperMarketFragment">
+    tools:context=".ui.mainActivity.StoresTab.superMarkets.SuperMarketFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/superMarketRecycler"

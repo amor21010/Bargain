@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="?attr/actionBarSize"
     android:orientation="vertical"
-    tools:context=".ui.mainActivity.stores.StoresFragment">
+    tools:context=".ui.mainActivity.StoresTab.storesHomeFragment.StoresFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/storeTypeRecyclerView"

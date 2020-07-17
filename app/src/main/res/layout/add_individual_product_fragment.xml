@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:orientation="vertical"
-    tools:context=".ui.mainActivity.AddIndividualProductFragment">
+    tools:context=".ui.mainActivity.IndividualsTab.AddIndividualProductFragment.AddIndividualProductFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="200dp"

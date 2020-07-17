@@ -85,5 +85,9 @@
     <string name="add_image">add Image</string>
     <string name="what_is_in_the_package">what is in the package ?</string>
     <string name="price_string">price</string>
+    <string name="order_what_you_want">Order What you Want</string>
+    <string name="write_whatever_you_want">write Whatever you Want to order in the field below in most detailed form and we \'ll deliver it/them for you</string>
+    <string name="order">write the Order here ..</string>
+    <string name="order_now">order now</string>
 
 </resources>

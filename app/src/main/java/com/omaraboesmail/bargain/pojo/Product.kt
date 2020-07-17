@@ -1,7 +1,7 @@
 package com.omaraboesmail.bargain.pojo
 
 import androidx.lifecycle.LiveData
-import com.omaraboesmail.bargain.data.ProductRepo
+import com.omaraboesmail.bargain.data.Prodruct.ProductRepo
 
 open class Product(
     open val name: String,
@@ -38,7 +38,11 @@ fun Product.getPhotoUri(): LiveData<String> {
         "restaurant" ->
             ProductRepo.getRestaurantProductPhoto(this.seller, this.name)
         "individual" ->
-            ProductRepo.getIndividualProductPhoto(this.type, this.name)
+            ProductRepo.getIndividualProductPhoto(
+                type = this.type,
+                name = this.name,
+                seller = this.seller
+            )
         else -> object : LiveData<String>() {
             override fun onActive() {
                 super.onActive()

@@ -2,6 +2,8 @@ package com.omaraboesmail.bargain.ui.mainActivity.cartFragment
 
 import androidx.lifecycle.ViewModel
 import com.omaraboesmail.bargain.data.CartRepo
+import com.omaraboesmail.bargain.data.orders.OrderRepo
+import com.omaraboesmail.bargain.pojo.Order
 import com.omaraboesmail.bargain.pojo.Product
 
 class CartViewModel : ViewModel() {
@@ -9,4 +11,5 @@ class CartViewModel : ViewModel() {
     fun updateCart(product: List<Product>) =
         CartRepo.updateOnlineCart(product = product as ArrayList<Product>)
 
+    fun placeOrder(order: Order) = OrderRepo.createOrder(order)
 }

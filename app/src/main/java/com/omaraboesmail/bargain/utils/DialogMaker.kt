@@ -98,12 +98,9 @@ object DialogMaker {
         return dialog
     }
 
-    fun Dialog.setEmail(email: String) {
-        DialogMaker.email = email
-    }
-
     @SuppressLint("SetTextI18n")
-    fun uploadPhotoProgressDialog(): Dialog {
+    fun uploadPhotoProgressDialog(destination: Int): Dialog {
+        progress.value = 0.0
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.upload_dialoug)
@@ -116,30 +113,33 @@ object DialogMaker {
 
         progress.observe(mContext, Observer {
             progressBar.progress = it.toInt()
-            if (it == 100.0) {
-                progressBar.progressDrawable.setColorFilter(
+            when {
+                it == 100.0 -> {
+                    progressBar.progressDrawable.setColorFilter(
+                        Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    dialog.setCancelable(true)
+                    okButton.isEnabled = true
+                    okButton.setOnClickListener {
+                        if (dialog.isShowing) dialog.dismiss()
+                        mContext.onBackPressed()
+                    }
+
+                }
+                it <= 30 -> progressBar.progressDrawable.setColorFilter(
+                    Color.RED, android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                it < 70 -> progressBar.progressDrawable.setColorFilter(
+                    Color.parseColor("#F7A63E"), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                it >= 70 -> progressBar.progressDrawable.setColorFilter(
                     Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN
                 )
-                dialog.setCancelable(true)
-                okButton.isEnabled = true
-                okButton.setOnClickListener {
-                    if (dialog.isShowing) dialog.dismiss()
-                    NavigationFlow(mContext).navigateToFragment(R.id.nav_super_market)
+                else -> {
+                    dialog.setCancelable(false)
+                    okButton.isEnabled = false
+                    okButton.setOnClickListener(null)
                 }
-
-            } else if (it <= 30) progressBar.progressDrawable.setColorFilter(
-                Color.RED, android.graphics.PorterDuff.Mode.SRC_IN
-            )
-            else if (it < 70) progressBar.progressDrawable.setColorFilter(
-                Color.parseColor("#F7A63E"), android.graphics.PorterDuff.Mode.SRC_IN
-            )
-            else if (it >= 70) progressBar.progressDrawable.setColorFilter(
-                Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN
-            )
-            else {
-                dialog.setCancelable(false)
-                okButton.isEnabled = false
-                okButton.setOnClickListener(null)
             }
 
 
@@ -155,4 +155,8 @@ object DialogMaker {
     }
 
 
+}
+
+fun setEmail(email: String) {
+    DialogMaker.email = email
 }

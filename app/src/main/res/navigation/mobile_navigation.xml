@@ -71,7 +71,7 @@
         tools:layout="@layout/custom_order_fragment" />
     <fragment
         android:id="@+id/nav_individuals"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.individuals.IndividualsFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.IndividualsTab.individualsHomeFragment.IndividualsFragment"
         android:label="individuals_fragment"
         tools:layout="@layout/individuals_fragment">
         <action
@@ -86,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_store"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.stores.StoresFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.StoresTab.storesHomeFragment.StoresFragment"
         android:label="store_fragment"
         tools:layout="@layout/store_fragment">
         <action
@@ -103,7 +103,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_resturant"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.restaurantsFragment.RestaurantsFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.StoresTab.restaurantsFragment.RestaurantsFragment"
         android:label="food_restorants_fragment"
         tools:layout="@layout/restorants_fragment">
         <action
@@ -112,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_super_market"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.superMarkets.SuperMarketFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.StoresTab.superMarkets.SuperMarketFragment"
         android:label="super_market_fragment"
         tools:layout="@layout/super_market_fragment">
         <action
@@ -124,7 +124,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_vegtables"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.vegetablesFragment.VegetablesFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.StoresTab.vegetablesFragment.VegetablesFragment"
         android:label="vegtables_fragment"
         tools:layout="@layout/vegtables_fragment">
         <action
@@ -133,7 +133,7 @@
     </fragment>
     <fragment
         android:id="@+id/superMarketDetailsFragment"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.supreMarketDetaills.SuperMarketDetailsFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.StoresTab.supreMarketDetaills.SuperMarketDetailsFragment"
         android:label="super_market_details_fragment"
         tools:layout="@layout/super_market_details_fragment">
         <action
@@ -142,7 +142,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_add_market"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.addSuperMarketFragment.AddSuperMarketFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.StoresTab.addSuperMarketFragment.AddSuperMarketFragment"
         android:label="add_super_market_fragment"
         tools:layout="@layout/add_super_market_fragment" />
     <fragment
@@ -152,7 +152,7 @@
         tools:layout="@layout/cart_fragment" />
     <fragment
         android:id="@+id/restaurantDetailsFragment"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.restaurantDetailsFragment.RestaurantDetailsFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.StoresTab.restaurantDetailsFragment.RestaurantDetailsFragment"
         android:label="retaurant_details_fragment"
         tools:layout="@layout/retaurant_details_fragment">
         <action
@@ -161,7 +161,7 @@
     </fragment>
     <fragment
         android:id="@+id/handMadeFragment"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.handMadeFragment.HandMadeFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.IndividualsTab.handMadeFragment.HandMadeFragment"
         android:label="hand_made_fragment"
         tools:layout="@layout/hand_made_fragment">
         <action
@@ -173,9 +173,9 @@
     </fragment>
     <fragment
         android:id="@+id/homeServiceFragment"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.homeService.HomeServiceFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.IndividualsTab.homeService.HomeServiceFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment">
+        tools:layout="@layout/home_service_fragment">
         <action
             android:id="@+id/action_homeServiceFragment_to_addIndividualProductFragment"
             app:destination="@id/addIndividualProductFragment" />
@@ -185,7 +185,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeStoreFragment"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.homeStoreFragment.HomeStoreFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.IndividualsTab.homeStoreFragment.HomeStoreFragment"
         android:label="home_store_fragment"
         tools:layout="@layout/home_store_fragment">
         <action
@@ -197,7 +197,7 @@
     </fragment>
     <fragment
         android:id="@+id/addIndividualProductFragment"
-        android:name="com.omaraboesmail.bargain.ui.mainActivity.AddIndividualProductFragment"
+        android:name="com.omaraboesmail.bargain.ui.mainActivity.IndividualsTab.AddIndividualProductFragment.AddIndividualProductFragment"
         android:label="add_individual_product_fragment"
         tools:layout="@layout/add_individual_product_fragment" />
 </navigation>

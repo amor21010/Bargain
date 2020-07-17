@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.omaraboesmail.bargain.R
 import com.omaraboesmail.bargain.data.UserRepo
+import com.omaraboesmail.bargain.pojo.Cart
+import com.omaraboesmail.bargain.pojo.DeliveryStat
+import com.omaraboesmail.bargain.pojo.Order
 import com.omaraboesmail.bargain.pojo.Product
 import com.omaraboesmail.bargain.utils.Const.TAG
 
@@ -24,9 +28,12 @@ class CartFragment : Fragment() {
             CartFragment()
     }
 
+
     private lateinit var totalPrice: TextView
+    private lateinit var makeOrder: Button
     private var products = ArrayList<Product>()
     private val viewModel: CartViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,19 +69,23 @@ class CartFragment : Fragment() {
             }
 
         totalPrice = view.findViewById(R.id.totalPrice)
-
+        makeOrder = view.findViewById(R.id.makeOrderBtn)
 
         cartRecycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        UserRepo.fbUserLive.value?.email?.let {
-            viewModel.getOnlineCart(it).observe(viewLifecycleOwner,
-                Observer {
-                    if (!it.products.isNullOrEmpty()) {
-                        cartAdapter.swapData(it.products)
-                        products = it.products
+        UserRepo.fbUserLive.value?.email?.let { email ->
+            viewModel.getOnlineCart(email).observe(viewLifecycleOwner,
+                Observer { cart ->
+                    if (!cart.products.isNullOrEmpty()) {
+                        cartAdapter.swapData(cart.products)
+                        products = cart.products
                         Log.d(TAG, products.toString())
                         getTotalPrice()
+                        makeOrder.setOnClickListener {
+                            if (!cart.products.isNullOrEmpty())
+                                makeOrder(cart)
+                        }
                     }
                 })
         }
@@ -83,10 +94,20 @@ class CartFragment : Fragment() {
 
     }
 
-    private fun getTotalPrice() {
-        var total = 0
-        products.forEach { total += (it.price.toInt() * it.quantityOrdered) }
-        totalPrice.text = total.toString()
+    private fun makeOrder(cart: Cart) {
+        viewModel.placeOrder(
+            Order(
+                cart,
+                totalPrice = getTotalPrice(),
+                state = DeliveryStat.WAITING
+            )
+        )
     }
 
+    private fun getTotalPrice(): Double {
+        var total = 0.0
+        products.forEach { total += (it.price.toInt() * it.quantityOrdered) }
+        totalPrice.text = total.toString()
+        return total
+    }
 }

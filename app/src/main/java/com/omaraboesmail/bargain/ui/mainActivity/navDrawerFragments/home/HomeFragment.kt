@@ -20,7 +20,8 @@ import com.omaraboesmail.bargain.pojo.User
 import com.omaraboesmail.bargain.utils.Const.TAG
 import com.omaraboesmail.bargain.utils.DialogMaker
 import com.omaraboesmail.bargain.utils.DialogMaker.mContext
-import com.omaraboesmail.bargain.utils.DialogMaker.setEmail
+import com.omaraboesmail.bargain.utils.setEmail
+
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -61,7 +62,7 @@ class HomeFragment : Fragment() {
         homeViewModel.getCurrentUserData.observe(viewLifecycleOwner, Observer { user ->
             Log.d(TAG, "user +$user")
             if (user != null) {
-                dialog.setEmail(user.email)
+                setEmail(user.email)
                 getEmailVerStat(user)
 
 
