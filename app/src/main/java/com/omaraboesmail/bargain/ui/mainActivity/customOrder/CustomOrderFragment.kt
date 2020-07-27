@@ -1,8 +1,7 @@
 package com.omaraboesmail.bargain.ui.mainActivity.customOrder
 
+import android.app.Dialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,12 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.omaraboesmail.bargain.R
+import com.omaraboesmail.bargain.utils.DialogMaker
 import com.omaraboesmail.bargain.utils.isValidInput
 
 class CustomOrderFragment : Fragment() {
     lateinit var orderText: EditText
+    lateinit var dialog: Dialog
 
     companion object {
         fun newInstance() = CustomOrderFragment()
@@ -33,20 +34,14 @@ class CustomOrderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         orderText = view.findViewById(R.id.orderText)
         val orderBtn: Button = view.findViewById(R.id.orderBtn)
+
         //saveState(savedInstanceState)
 
 
         orderBtn.setOnClickListener {
             if (orderText.text.isValidInput()) {
                 makeOrder(orderText.text.toString())
-                /*viewModel.orderState.observe(viewLifecycleOwner, Observer {
-                    when (it) {
-                        DbCRUDState.INSERTED -> TODO()  *//* NavigationFlow(requireContext()).navigateToFragment(
-                            R.id.nav_home*//*
-
-                        )
-                    }
-                })*/
+                showOrderStateDialog()
             } else orderText.error = "this field must be filled"
         }
     }
@@ -55,7 +50,13 @@ class CustomOrderFragment : Fragment() {
         viewModel.makeOrder(text)
     }
 
-    fun saveState(stat: Bundle?) {
+    private fun showOrderStateDialog() {
+
+        dialog = DialogMaker.orderDialog(viewModel.orderState)
+        dialog.show()
+    }
+
+    /*fun saveState(stat: Bundle?) {
         if (stat != null) {
             try {
                 orderText.setText(stat.getString("orderText"))
@@ -80,7 +81,7 @@ class CustomOrderFragment : Fragment() {
             }
 
         }
-    }
+    }*/
 
 
 }

@@ -43,13 +43,33 @@ object SuperMarketRepo {
                 superMarketDB.whereEqualTo("name", name).get().addOnSuccessListener {
                     if (!it.isEmpty) {
                         marketDoc.value = it.documents[0].reference
+
                         value = it.documents[0]!!.data?.toSuperMarket()
                     }
                 }
             }
         }
-
     }
+
+    fun getMarketsWithDiscount(): LiveData<List<SuperMarket>> {
+        return object : LiveData<List<SuperMarket>>() {
+            override fun onActive() {
+                super.onActive()
+                superMarketDB.whereGreaterThan("discount", 0)
+                    .addSnapshotListener { snapshot, exception ->
+                        if (exception != null) return@addSnapshotListener
+                        if (snapshot != null) {
+                            value = snapshot.documents.map {
+                                it.data?.toSuperMarket()!!
+                            }
+                        }
+                    }
+
+
+            }
+        }
+    }
+
 
     fun getAllMarkets(): LiveData<List<SuperMarket>> {
         return object : LiveData<List<SuperMarket>>() {
@@ -72,7 +92,7 @@ object SuperMarketRepo {
         }
     }
 
-    fun uploadSuperMarketImage(file: Uri, superMarket: SuperMarket) {
+    private fun uploadSuperMarketImage(file: Uri, superMarket: SuperMarket) {
         uploadStat.value = UploadPhotoState.LOADING
         mStorageRef.child("super market image /${superMarket.name}").putFile(file)
             .addOnSuccessListener {
@@ -127,7 +147,7 @@ object SuperMarketRepo {
         }
     }
 
-    fun updateMarket(newMarket: SuperMarket) {
+    private fun updateMarket(newMarket: SuperMarket) {
         marketDoc.value?.update(newMarket.toHashMap())?.addOnCompleteListener {
             if (it.isSuccessful) crudState.value = DbCRUDState.UPDATED
             else crudState.value = DbCRUDState.FAILED

@@ -12,11 +12,50 @@ import com.omaraboesmail.bargain.utils.Const.TAG
 object IndividualsRepo :
     IndividualsInterface {
     lateinit var productDR: DocumentReference
+
+    /*    val productName = MutableLiveData<String>()
+        val getClickedProduct = Transformations.switchMap(productName) {
+            getProductByName(it)
+        }
+        private fun getProductByName(name: String): LiveData<IndividualProduct> {
+            return object : LiveData<IndividualProduct>() {
+                override fun onActive() {
+                    super.onActive()
+                    FireBaseConst.individualsDB("Type")
+                        .whereGreaterThan("discount", 0)
+                        .whereEqualTo("removed", false)
+                        .addSnapshotListener { snapshot, exception ->
+                            if (exception != null) return@addSnapshotListener
+                            if (snapshot != null) {
+                                val individualProducts = ArrayList<IndividualProduct>()
+                                snapshot.documents.forEach { documentSnapshot ->
+                                    documentSnapshot.data?.toIndividualProduct()?.let { product ->
+                                        individualProducts.add(
+                                            product
+                                        )
+                                    }
+                                }
+                                value = individualProducts[0]
+
+                            }
+                        }
+                }
+            }
+        }*/
+    private var clickedProduct: IndividualProduct? = null
+    fun getClickedProduct(): IndividualProduct? {
+        return clickedProduct
+    }
+
+    fun setClickedProduct(product: IndividualProduct) {
+        clickedProduct = product
+    }
+
+
     override fun getAllProductsByType(Type: String): LiveData<List<IndividualProduct>> {
         return object : LiveData<List<IndividualProduct>>() {
             override fun onActive() {
                 super.onActive()
-                Log.d(TAG, "$Type this is type")
                 FireBaseConst.individualsDB(Type)
                     .whereEqualTo("type", Type)
                     .whereEqualTo("removed", false)
@@ -40,6 +79,32 @@ object IndividualsRepo :
 
     }
 
+    fun getIndividualDiscount(Type: String): LiveData<List<IndividualProduct>> {
+        return object : LiveData<List<IndividualProduct>>() {
+            override fun onActive() {
+                super.onActive()
+                FireBaseConst.individualsDB(Type)
+                    .whereGreaterThan("discount", 0)
+                    .whereEqualTo("removed", false)
+                    .addSnapshotListener { snapshot, exception ->
+                        if (exception != null) return@addSnapshotListener
+                        if (snapshot != null) {
+                            val individualProducts = ArrayList<IndividualProduct>()
+                            snapshot.documents.forEach { documentSnapshot ->
+                                documentSnapshot.data?.toIndividualProduct()?.let { product ->
+                                    individualProducts.add(
+                                        product
+                                    )
+                                }
+                            }
+                            value = individualProducts
+                        }
+                    }
+            }
+        }
+
+    }
+
 
     override fun insertProduct(product: IndividualProduct) {
         FireBaseConst.individualsDB(product.type).add(product).addOnSuccessListener {
@@ -48,7 +113,7 @@ object IndividualsRepo :
 
     }
 
-    override fun updateProductByName(newProduct: IndividualProduct) {
+    override fun updateProduct(newProduct: IndividualProduct) {
         FireBaseConst.individualsDB(newProduct.type)
             .whereEqualTo("name", newProduct.name).get()
             .addOnSuccessListener {

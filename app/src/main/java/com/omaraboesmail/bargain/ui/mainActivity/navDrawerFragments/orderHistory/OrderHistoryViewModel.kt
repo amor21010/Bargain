@@ -2,8 +2,8 @@ package com.omaraboesmail.bargain.ui.mainActivity.navDrawerFragments.orderHistor
 
 import androidx.lifecycle.ViewModel
 import com.omaraboesmail.bargain.data.UserRepo
-import com.omaraboesmail.bargain.data.orders.OrderRepo
-import com.omaraboesmail.bargain.data.orders.costumeOrderRepo.CostumeOrderRepo
+import com.omaraboesmail.bargain.data.costumeOrderRepo.CostumeOrderRepo
+import com.omaraboesmail.bargain.data.normalOrdersRepo.OrderRepo
 
 class OrderHistoryViewModel : ViewModel() {
 

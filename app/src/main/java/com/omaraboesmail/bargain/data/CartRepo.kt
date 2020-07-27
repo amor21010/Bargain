@@ -77,7 +77,7 @@ object CartRepo {
                                 cartReference = (documentsList[0].reference)
                                 cart = documentsList[0].data?.toCartObject()!!
                                 val productList = cart.products.checkItemsAre<Product>()
-                                cartProductsList.value = productList
+                                cartProductsList.value = productList as ArrayList<Product>
                                 cartProductsListSize.value = productList.size
                                 value = cart
                             }
@@ -93,12 +93,12 @@ object CartRepo {
         FireBaseConst.cartsDB.add(cart).addOnSuccessListener {
             this.cart = cart
             cartReference = it
-            cartProductsList.value = cart.products
+            cartProductsList.value = cart.products as ArrayList<Product>
             Log.d(TAG, it.toString())
         }
     }
 
-    fun updateOnlineCart(product: ArrayList<Product>) {
+    fun updateOnlineCart(product: List<Product>) {
         val cart = Cart(products = product)
         cartReference.set(cart).addOnSuccessListener {
             getOnlineCart(cart.email)

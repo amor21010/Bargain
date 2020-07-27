@@ -1,4 +1,4 @@
-package com.omaraboesmail.bargain.data.orders.costumeOrderRepo
+package com.omaraboesmail.bargain.data.costumeOrderRepo
 
 import androidx.lifecycle.LiveData
 import com.omaraboesmail.bargain.pojo.CostumeOrder

@@ -89,5 +89,12 @@
     <string name="write_whatever_you_want">write Whatever you Want to order in the field below in most detailed form and we \'ll deliver it/them for you</string>
     <string name="order">write the Order here ..</string>
     <string name="order_now">order now</string>
+    <string name="go_home">go home</string>
+    <string name="costume_orders">Costume Orders</string>
+    <string name="normal_orders">normal Orders</string>
+    <string name="super_markets_discounts">super markets Discounts</string>
+    <string name="home_products_on_sale">Home Products On Sale</string>
+    <string name="update_product">update Product</string>
+    <string name="remove_this_product">remove this product</string>
 
 </resources>

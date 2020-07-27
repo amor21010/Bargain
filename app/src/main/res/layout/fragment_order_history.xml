@@ -1,22 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.mainActivity.navDrawerFragments.orderHistory.OrderHistoryFragment">
 
-    <TextView
-        android:id="@+id/text_history"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/normal_sec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:elevation="1dp"
+            app:cardCornerRadius="@dimen/card_radius">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/normalExpandBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/expand"
+                    android:src="@drawable/ic_expand"
+                    app:backgroundTint="@android:color/white"
+                    app:fabCustomSize="30dp"
+                    app:fabSize="mini"
+                    app:tint="@color/colorAccent"
+                    tools:ignore="RelativeOverlap" />
+
+                <TextView
+                    android:id="@+id/normalOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toStartOf="@+id/normalExpandBtn"
+                    android:text="@string/normal_orders"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/very_big_text" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/normalOrderRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/normalOrder"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
+                    tools:listitem="@layout/costume_order_item" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/costume_sec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/normal_sec"
+            android:layout_margin="5dp"
+
+            android:elevation="1dp"
+            app:cardCornerRadius="@dimen/card_radius">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_primary">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/costumeExpandBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="5dp"
+                    android:contentDescription="@string/expand"
+                    android:src="@drawable/ic_expand"
+                    app:backgroundTint="@android:color/white"
+                    app:fabCustomSize="30dp"
+                    app:fabSize="mini"
+                    app:tint="@color/colorPrimary"
+                    tools:ignore="RelativeOverlap" />
+
+                <TextView
+                    android:id="@+id/costumeOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="15dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:layout_toStartOf="@+id/costumeExpandBtn"
+                    android:text="@string/costume_orders"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/very_big_text" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/costumeRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/costumeOrder"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
+                    tools:listitem="@layout/costume_order_item" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

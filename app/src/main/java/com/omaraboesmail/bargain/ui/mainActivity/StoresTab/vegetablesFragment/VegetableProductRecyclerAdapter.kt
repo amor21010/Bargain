@@ -59,27 +59,9 @@ class VegetableProductRecyclerAdapter :
             unit.text = product.unit
             price.text = "X ${product.price}"
 
-            /* quantity.maxValue = product.quantityAvailable
-             quantity.minValue = 0
-             quantity.setOnValueChangedListener { _, _, newVal ->
-                 getTotalPrice(newVal)
-             }*/
 
             addFab.setOnClickListener {
-                /* var newValue = quantity.value
-                 if (newValue == quantity.maxValue) return@setOnClickListener
 
-                 addFab.setImageDrawable(
-                     ResourcesCompat.getDrawable(
-                         itemView.context.resources,
-                         R.drawable.ic_add,
-                         null
-                     )
-                 )
-                 newValue += 1
-                 quantity.value = newValue
-                 getTotalPrice(newValue)*/
-                // todo update cart
 
                 CartRepo.addToCart(product)
                 ToastMaker(this.context, "product Added to Cart Successfully")

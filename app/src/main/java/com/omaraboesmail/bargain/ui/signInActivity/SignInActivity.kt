@@ -13,7 +13,7 @@ import com.omaraboesmail.bargain.ui.SplashActivity
 import com.omaraboesmail.bargain.ui.mainActivity.MainActivity
 import com.omaraboesmail.bargain.utils.DialogMaker
 import com.omaraboesmail.bargain.utils.DialogMaker.loading
-import com.omaraboesmail.bargain.utils.DialogMaker.mContext
+
 import com.omaraboesmail.bargain.utils.DialogMaker.mTitle
 import com.omaraboesmail.bargain.utils.NavigationFlow
 import com.omaraboesmail.bargain.utils.getText
@@ -25,7 +25,7 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-        mContext = this
+        DialogMaker.mContext = this
         dialog = DialogMaker.authDialog()
         signInBtn.setOnClickListener {
             if ((email.getText() != null) and (password.getText() != null)) {

@@ -62,8 +62,8 @@ class RestaurantProductRecyclerAdapter :
                     if (!it.isNullOrEmpty()) Glide.with(context).load(it).into(image)
                 })
             setOnClickListener {
-                //todo add to cart
-                val product1 = Product(
+
+            val product1 = Product(
                     product.name,
                     product.price,
                     "restaurant",

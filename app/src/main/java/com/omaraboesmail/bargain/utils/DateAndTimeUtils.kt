@@ -6,9 +6,11 @@ import java.util.*
 
 class DateAndTimeUtils {
     @SuppressLint("SimpleDateFormat")
-    fun getDateAndTime(): String {
+    fun getDateAndTime(): Date {
         val formatter = SimpleDateFormat("dd/MM 'at' hh:mm:ss a")
         val currentTime = Date()
-        return formatter.format(currentTime)
+        return currentTime
     }
+
+
 }

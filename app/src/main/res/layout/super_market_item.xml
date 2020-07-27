@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginVertical="7dp"
+    android:layout_marginHorizontal="7dp"
+    android:layout_marginVertical="5dp"
     android:orientation="vertical"
     app:cardCornerRadius="5dp">
 
@@ -30,6 +30,18 @@
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/SuperMarketDiscount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/SuperMarketText"
+            android:background="@color/colorPrimaryLightTransparent"
+            android:text="@string/vegetables_markets"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/small_text"
+            android:visibility="gone" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
 

@@ -1,10 +1,11 @@
 package com.omaraboesmail.bargain.pojo
 
-import com.omaraboesmail.bargain.utils.DateAndTimeUtils
+import com.google.firebase.Timestamp
 
 data class Order(
     var cart: Cart,
-    val time: String = DateAndTimeUtils().getDateAndTime(),
+    val time: Timestamp = Timestamp.now(),
     val totalPrice: Double,
     var state: DeliveryStat
 )
+

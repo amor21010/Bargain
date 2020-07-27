@@ -19,7 +19,9 @@ import com.omaraboesmail.bargain.pojo.Cart
 import com.omaraboesmail.bargain.pojo.DeliveryStat
 import com.omaraboesmail.bargain.pojo.Order
 import com.omaraboesmail.bargain.pojo.Product
+import com.omaraboesmail.bargain.resultStats.DbCRUDState
 import com.omaraboesmail.bargain.utils.Const.TAG
+import com.omaraboesmail.bargain.utils.ToastMaker
 
 class CartFragment : Fragment() {
 
@@ -31,7 +33,7 @@ class CartFragment : Fragment() {
 
     private lateinit var totalPrice: TextView
     private lateinit var makeOrder: Button
-    private var products = ArrayList<Product>()
+    private var products: List<Product> = ArrayList()
     private val viewModel: CartViewModel by viewModels()
 
 
@@ -77,15 +79,28 @@ class CartFragment : Fragment() {
         UserRepo.fbUserLive.value?.email?.let { email ->
             viewModel.getOnlineCart(email).observe(viewLifecycleOwner,
                 Observer { cart ->
-                    if (!cart.products.isNullOrEmpty()) {
-                        cartAdapter.swapData(cart.products)
-                        products = cart.products
-                        Log.d(TAG, products.toString())
-                        getTotalPrice()
-                        makeOrder.setOnClickListener {
-                            if (!cart.products.isNullOrEmpty())
-                                makeOrder(cart)
-                        }
+                    cartAdapter.swapData(cart.products)
+                    products = cart.products
+                    Log.d(TAG, products.toString())
+                    getTotalPrice()
+                    makeOrder.setOnClickListener {
+                        if (!cart.products.isNullOrEmpty())
+                            makeOrder(cart)
+                        viewModel.insertOrderState.observe(viewLifecycleOwner, Observer {
+                            when (it) {
+                                DbCRUDState.LOADING -> ToastMaker(requireContext(), "Loading...")
+                                DbCRUDState.INSERTED -> {
+                                    ToastMaker(requireContext(), "your Order is on deliver")
+                                    viewModel.updateCart(emptyList())
+                                }
+                                else -> {
+                                    ToastMaker(
+                                        requireContext(),
+                                        "some thing went wrong ,Please contact Us"
+                                    )
+                                }
+                            }
+                        })
                     }
                 })
         }
@@ -102,6 +117,7 @@ class CartFragment : Fragment() {
                 state = DeliveryStat.WAITING
             )
         )
+
     }
 
     private fun getTotalPrice(): Double {

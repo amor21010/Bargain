@@ -74,7 +74,7 @@ class ProductRecyclerAdapter : RecyclerView.Adapter<ProductRecyclerAdapter.Produ
                    getTotalPrice(newValue)
 
    */
-                // todo update cart
+
                 CartRepo.addToCart(product)
                 ToastMaker(this.context, "product Added to Cart Successfully")
                 addFab.setImageDrawable(

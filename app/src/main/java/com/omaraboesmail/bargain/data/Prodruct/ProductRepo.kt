@@ -17,7 +17,6 @@ import com.omaraboesmail.bargain.utils.Const
 
 object ProductRepo {
     val uploadProgress = MutableLiveData<Double>()
-
     fun getSuperMarketProductPhoto(type: String): LiveData<String> {
         return object : LiveData<String>() {
             override fun onActive() {

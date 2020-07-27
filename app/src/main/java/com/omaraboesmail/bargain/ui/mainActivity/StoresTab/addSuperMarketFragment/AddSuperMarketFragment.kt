@@ -13,7 +13,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,7 +37,7 @@ class AddSuperMarketFragment : Fragment() {
         var image_uri: Uri? = null
     }
 
-    var dialog = DialogMaker.uploadPhotoProgressDialog(R.id.nav_super_market)
+    var dialog = DialogMaker.uploadPhotoProgressDialog()
 
     private val viewModel: AddSuperMarketViewModel by viewModels()
 
@@ -54,7 +53,7 @@ class AddSuperMarketFragment : Fragment() {
         addPhoto.setOnClickListener {
             selectImageInAlbum()
         }
-        DialogMaker.mContext = activity as AppCompatActivity
+
         liveImage.setOnClickListener {
             //if system os is Marshmallow or Above, we need to request runtime permission
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -5,7 +5,7 @@ import com.omaraboesmail.bargain.utils.checkItemsAre
 
 data class Cart(
     val email: String = UserRepo.fbUserLive.value?.email!!,
-    var products: ArrayList<Product>
+    var products: List<Product>
 )
 
 

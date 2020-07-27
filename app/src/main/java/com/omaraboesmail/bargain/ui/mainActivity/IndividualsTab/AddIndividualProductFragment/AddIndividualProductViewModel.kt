@@ -12,5 +12,5 @@ class AddIndividualProductViewModel : ViewModel() {
         ProductRepo.uploadIndividualProductImage(uri, individualProduct)
 
     val imageStat = ProductRepo.uploadProgress
-    // TODO: Implement the ViewModel
+
 }

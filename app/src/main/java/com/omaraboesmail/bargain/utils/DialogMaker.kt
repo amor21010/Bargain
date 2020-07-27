@@ -12,22 +12,24 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.omaraboesmail.bargain.R
 import com.omaraboesmail.bargain.data.FireBaseConst.firebaseAuthInstance
 import com.omaraboesmail.bargain.resultStats.AuthState
+import com.omaraboesmail.bargain.resultStats.DbCRUDState
+import com.omaraboesmail.bargain.ui.mainActivity.MainActivity
 
 
 object DialogMaker {
-
-    lateinit var mContext: AppCompatActivity
+    var mContext: AppCompatActivity = MainActivity()
     var mTitle = MutableLiveData<String>()
     var loading = MutableLiveData<Boolean>()
     var loadingstate = MutableLiveData<String>()
     var progress = MutableLiveData(0.0)
     var email: String = " "
-
+    private lateinit var navigationFlow: NavigationFlow
     fun authDialog(): Dialog {
         mTitle.value = AuthState.LOADING.msg
         val dialog = Dialog(mContext)
@@ -59,6 +61,60 @@ object DialogMaker {
         return dialog
     }
 
+    fun orderDialog(dbCRUDState: LiveData<DbCRUDState>): Dialog {
+        navigationFlow = NavigationFlow(mContext)
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.db_loading_dialog)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+        val body = dialog.findViewById(R.id.loadingState) as TextView
+        val dismiss = dialog.findViewById(R.id.dismiss) as TextView
+        val progressBar = dialog.findViewById(R.id.loading) as ProgressBar
+        val goHome: Button = dialog.findViewById(R.id.goHome)
+
+        dbCRUDState.observe(mContext, Observer {
+            when (it) {
+                DbCRUDState.LOADING -> {
+                    progressBar.visibility = View.VISIBLE
+                    dismiss.visibility = View.GONE
+                    goHome.visibility = View.GONE
+                    dialog.setCancelable(false)
+                    mTitle.value = "${it.msg}"
+                }
+                DbCRUDState.FAILED -> {
+                    progressBar.visibility = View.GONE
+                    dismiss.visibility = View.GONE
+                    goHome.visibility = View.GONE
+                    dialog.setCancelable(true)
+                    mTitle.value = "${it.msg}\n please contact us on WhatsApp"
+                }
+                DbCRUDState.INSERTED -> {
+                    progressBar.visibility = View.GONE
+                    dismiss.visibility = View.VISIBLE
+                    dialog.setCancelable(true)
+                    goHome.visibility = View.VISIBLE
+                    goHome.setOnClickListener {
+                        dialog.dismiss()
+                        navigationFlow.navigateToFragment(R.id.nav_home)
+                    }
+                    dismiss.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    mTitle.value = "Order has been successfully placed"
+
+                }
+                else -> TODO()
+            }
+        })
+        mTitle.observe(
+            mContext, Observer {
+                body.text = it
+            })
+
+        return dialog
+    }
+
     @SuppressLint("SetTextI18n")
     fun verifyEmailDialog(isDismissable: Boolean = true): Dialog {
         mTitle.value = AuthState.LOADING.msg
@@ -75,7 +131,6 @@ object DialogMaker {
         verify.text = mContext.getString(R.string.try_to_verify)
         goToMail.text = mContext.getString(R.string.got_to_email_app)
 
-        val image = dialog.findViewById(R.id.notVerified) as ImageView
         verify.setOnClickListener {
             if (!firebaseAuthInstance.currentUser!!.isEmailVerified)
                 firebaseAuthInstance.currentUser!!.sendEmailVerification()
@@ -98,8 +153,9 @@ object DialogMaker {
         return dialog
     }
 
+    @Suppress("DEPRECATION")
     @SuppressLint("SetTextI18n")
-    fun uploadPhotoProgressDialog(destination: Int): Dialog {
+    fun uploadPhotoProgressDialog(): Dialog {
         progress.value = 0.0
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -149,13 +205,12 @@ object DialogMaker {
         loadingstate.observe(mContext, Observer {
             loading.text = it
         })
-
-
         return dialog
     }
 
 
 }
+
 
 fun setEmail(email: String) {
     DialogMaker.email = email

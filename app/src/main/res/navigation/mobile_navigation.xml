@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_nav_home_to_cartFragment"
             app:destination="@id/nav_cart_fragment" />
+        <action
+            android:id="@+id/action_nav_home_to_editProductFragment"
+            app:destination="@id/editProductFragment" />
 
     </fragment>
 
@@ -170,6 +173,9 @@
         <action
             android:id="@+id/action_handMadeFragment_to_nav_cart_fragment"
             app:destination="@id/nav_cart_fragment" />
+        <action
+            android:id="@+id/action_handMadeFragment_to_editProductFragment"
+            app:destination="@id/editProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeServiceFragment"
@@ -182,6 +188,9 @@
         <action
             android:id="@+id/action_homeServiceFragment_to_nav_cart_fragment"
             app:destination="@id/nav_cart_fragment" />
+        <action
+            android:id="@+id/action_homeServiceFragment_to_editProductFragment"
+            app:destination="@id/editProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeStoreFragment"
@@ -194,10 +203,18 @@
         <action
             android:id="@+id/action_homeStoreFragment_to_nav_cart_fragment"
             app:destination="@id/nav_cart_fragment" />
+        <action
+            android:id="@+id/action_homeStoreFragment_to_editProductFragment"
+            app:destination="@id/editProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/addIndividualProductFragment"
         android:name="com.omaraboesmail.bargain.ui.mainActivity.IndividualsTab.AddIndividualProductFragment.AddIndividualProductFragment"
         android:label="add_individual_product_fragment"
         tools:layout="@layout/add_individual_product_fragment" />
+    <fragment
+        android:id="@+id/editProductFragment"
+        android:name="com.omaraboesmail.bargain.ui.editProductFragment.EditProductFragment"
+        android:label="edit_product_fragment"
+        tools:layout="@layout/edit_product_fragment" />
 </navigation>

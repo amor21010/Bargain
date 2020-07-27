@@ -59,8 +59,8 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartVH>() {
 
     }
 
-    fun swapData(data: ArrayList<Product>) {
-        this.data = data
+    fun swapData(data: List<Product>) {
+        this.data = data as ArrayList<Product>
         notifyDataSetChanged()
     }
 

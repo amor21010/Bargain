@@ -1,4 +1,4 @@
-package com.omaraboesmail.bargain.ui.mainActivity.IndividualsTab.AddIndividualProductFragment
+package com.omaraboesmail.bargain.ui.editProductFragment
 
 import android.Manifest
 import android.app.Activity
@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,81 +22,89 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.omaraboesmail.bargain.R
 import com.omaraboesmail.bargain.data.UserRepo
+import com.omaraboesmail.bargain.databinding.EditProductFragmentBinding
 import com.omaraboesmail.bargain.pojo.IndividualProduct
+import com.omaraboesmail.bargain.pojo.getPhotoUri
 import com.omaraboesmail.bargain.utils.*
 import kotlinx.android.synthetic.main.add_individual_product_fragment.*
 
-class AddIndividualProductFragment : Fragment() {
+class EditProductFragment : Fragment() {
+    private var _binding: EditProductFragmentBinding? = null
+    private val binding get() = _binding!!
+    lateinit var arrayList: Array<String>
     private var imageUri: Uri? = null
-    private val PERMISSION_CODE = 0
-    private val IMAGE_CAPTURE_CODE = 1
-    private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1992
+    private val PERMISSION_CODE = 5
+    private val IMAGE_CAPTURE_CODE = 2
+    private val REQUEST_SELECT_IMAGE_IN_ALBUM = 1952
 
     companion object {
         fun newInstance() =
-            AddIndividualProductFragment()
-
-
+            EditProductFragment()
     }
 
-    private val viewModel: AddIndividualProductViewModel by viewModels()
-    lateinit var arrayList: Array<String>
+    val viewModel: EditProductViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.add_individual_product_fragment, container, false)
+        _binding = EditProductFragmentBinding.inflate(inflater)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
-        arrayList = requireContext().resources.getStringArray(R.array.individual_types)
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.individual_types,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            spinner.adapter = adapter
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var product = viewModel.getProductClicked()
+        if (product != null) {
+            product.getPhotoUri().observe(viewLifecycleOwner, Observer {
+                Glide.with(requireContext()).load(it).into(binding.productImage)
 
-        val dialog = DialogMaker.uploadPhotoProgressDialog()
-        spinner.setSelection(0)
-        addBtn.setOnClickListener {
-            val product = getData()
-            if (validateInput() && product != null) {
-                if (imageUri != null) {
-                    viewModel.addIndividualProduct(product)
-                    viewModel.uploadPhoto(imageUri!!, product)
-                    dialog.show()
-                    viewModel.imageStat.observe(viewLifecycleOwner, Observer {
-                        if (it > 0) {
-                            DialogMaker.progress.value = it
-                        }
-                    })
-                } else selectImage()
+            })
+            binding.price.editText?.setText(product.price)
+            binding.productName.editText?.setText(product.name)
+            binding.unit.editText?.setText(product.unit)
+            arrayList = requireContext().resources.getStringArray(R.array.individual_types)
+            ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.individual_types,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Apply the adapter to the spinner
+                binding.spinner.adapter = adapter
+            }
+            binding.spinner.setSelection(setSelected(product.type))
+            binding.productImage.setOnClickListener {
+                selectImage()
+            }
+            binding.addImageText.setOnClickListener {
+                selectImage()
+            }
+            DialogMaker.mContext = requireActivity() as AppCompatActivity
+            val dialog = DialogMaker.uploadPhotoProgressDialog()
+            binding.updateBtn.setOnClickListener {
+                product = getData()
+                if (validateInput() && product != null) {
+                    if (imageUri != null) {
+                        viewModel.updateProduct(product!!)
+                        viewModel.uploadImage(imageUri!!, product!!)
+                        dialog.show()
+                        viewModel.imageStat.observe(viewLifecycleOwner, Observer {
+                            if (it > 0) {
+                                DialogMaker.progress.value = it
+                            }
+                        })
+
+                    }
+                }
             }
 
-        }
-
-        productImage.setOnClickListener {
-            selectImage()
-        }
-        addImageText.setOnClickListener {
-            selectImage()
-        }
-
-
-    }
-
-    private fun selectImageInAlbum() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivityForResult(intent, REQUEST_SELECT_IMAGE_IN_ALBUM)
         }
     }
 
@@ -126,26 +135,42 @@ class AddIndividualProductFragment : Fragment() {
         }
     }
 
-    private fun getData(): IndividualProduct? {
-        return UserRepo.currant.value?.name?.let { userNaem ->
-            IndividualProduct(
-                name = productName.getText()!!,
-                price = price.getText()!!,
-                type = getType(),
-                unit = unit.getText()!!,
-                seller = userNaem,
-                quantityAvailable = 1
-            )
-        }
-
-    }
-
     private fun getType(): String {
         return when (spinner.selectedItemPosition) {
             0 -> "handMade"
             1 -> "homeStore"
             2 -> "homeService"
             else -> spinner.selectedItem.toString()
+        }
+    }
+
+    private fun setSelected(string: String): Int {
+        return when (string) {
+            "handMade" -> 0
+            "homeStore" -> 1
+            "homeService" -> 2
+            else -> arrayList.lastIndexOf(string)
+        }
+    }
+
+    private fun selectImageInAlbum() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivityForResult(intent, REQUEST_SELECT_IMAGE_IN_ALBUM)
+        }
+    }
+
+    private fun getData(): IndividualProduct? {
+        return UserRepo.currant.value?.name?.let { userName ->
+            IndividualProduct(
+                name = productName.getText()!!,
+                price = price.getText()!!,
+                type = getType(),
+                unit = unit.getText()!!,
+                seller = userName,
+                quantityAvailable = 1
+            )
         }
 
     }
@@ -196,9 +221,9 @@ class AddIndividualProductFragment : Fragment() {
             //set image captured to image view
             try {
                 imageUri = data!!.data
-                Glide.with(requireContext()).load(imageUri).into(productImage)
+                Glide.with(requireContext()).load(imageUri).into(binding.productImage)
             } catch (e: Exception) {
-                Glide.with(requireContext()).load(imageUri).into(productImage)
+                Glide.with(requireContext()).load(imageUri).into(binding.productImage)
 
             }
 
@@ -222,4 +247,5 @@ class AddIndividualProductFragment : Fragment() {
         }
         builder.show()
     }
+
 }

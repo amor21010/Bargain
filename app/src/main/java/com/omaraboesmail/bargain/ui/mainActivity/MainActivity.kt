@@ -50,11 +50,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
+        DialogMaker.mContext = this
         createBottomNav()
         createDrawerLayout()
-
-        DialogMaker.mContext = this
 
 
     }
@@ -67,8 +65,10 @@ class MainActivity : AppCompatActivity() {
         val badgeView = mMenu.findItem(R.id.action_cart).actionView
         badgeText = badgeView.findViewById(R.id.cartBadge)
         mainActivityViewModel.getCartSize().observe(this, Observer { cartSize ->
-            badgeText.text = cartSize.toString()
-            badgeText.visibility = View.VISIBLE
+            if (cartSize > 0) {
+                badgeText.text = cartSize.toString()
+                badgeText.visibility = View.VISIBLE
+            } else badgeText.visibility = View.GONE
 
         })
 
